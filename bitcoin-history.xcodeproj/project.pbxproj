@@ -8,28 +8,164 @@
 
 /* Begin PBXBuildFile section */
 		FFC2C8DF238F0B00008745A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C8DE238F0B00008745A5 /* AppDelegate.swift */; };
-		FFC2C8E1238F0B00008745A5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C8E0238F0B00008745A5 /* SceneDelegate.swift */; };
-		FFC2C8E3238F0B00008745A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C8E2238F0B00008745A5 /* ViewController.swift */; };
-		FFC2C8E6238F0B00008745A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFC2C8E4238F0B00008745A5 /* Main.storyboard */; };
-		FFC2C8E9238F0B00008745A5 /* bitcoin_history.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C8E7238F0B00008745A5 /* bitcoin_history.xcdatamodeld */; };
 		FFC2C8EB238F0B02008745A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFC2C8EA238F0B02008745A5 /* Assets.xcassets */; };
 		FFC2C8EE238F0B02008745A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFC2C8EC238F0B02008745A5 /* LaunchScreen.storyboard */; };
+		FFC2C90E238F0DD4008745A5 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C90D238F0DD4008745A5 /* NotificationCenter.framework */; };
+		FFC2C911238F0DD4008745A5 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C910238F0DD4008745A5 /* TodayViewController.swift */; };
+		FFC2C914238F0DD4008745A5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFC2C912238F0DD4008745A5 /* MainInterface.storyboard */; };
+		FFC2C918238F0DD4008745A5 /* BHTodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FFC2C90B238F0DD4008745A5 /* BHTodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FFC2C926238F0DEF008745A5 /* BHKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FFC2C924238F0DEF008745A5 /* BHKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFC2C929238F0DEF008745A5 /* BHKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; };
+		FFC2C92A238F0DEF008745A5 /* BHKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FFC2C937238F10E2008745A5 /* BitcoinPriceDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C931238F10E2008745A5 /* BitcoinPriceDetailPresenter.swift */; };
+		FFC2C939238F10E2008745A5 /* BitcoinPriceDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C933238F10E2008745A5 /* BitcoinPriceDetailRouter.swift */; };
+		FFC2C93A238F10E2008745A5 /* BitcoinPriceDetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C934238F10E2008745A5 /* BitcoinPriceDetailModels.swift */; };
+		FFC2C93B238F10E2008745A5 /* BitcoinPriceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C935238F10E2008745A5 /* BitcoinPriceDetailViewController.swift */; };
+		FFC2C93C238F10E2008745A5 /* BitcoinPriceDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C936238F10E2008745A5 /* BitcoinPriceDetailInteractor.swift */; };
+		FFC2C951238F120E008745A5 /* BitcoinHistoryListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C94B238F120E008745A5 /* BitcoinHistoryListPresenter.swift */; };
+		FFC2C953238F120E008745A5 /* BitcoinHistoryListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C94D238F120E008745A5 /* BitcoinHistoryListRouter.swift */; };
+		FFC2C954238F120E008745A5 /* BitcoinHistoryListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C94E238F120E008745A5 /* BitcoinHistoryListModels.swift */; };
+		FFC2C955238F120E008745A5 /* BitcoinHistoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C94F238F120E008745A5 /* BitcoinHistoryListViewController.swift */; };
+		FFC2C956238F120E008745A5 /* BitcoinHistoryListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C950238F120E008745A5 /* BitcoinHistoryListInteractor.swift */; };
+		FFC2C95B238F172E008745A5 /* BitcoinHistoryTableHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C95A238F172E008745A5 /* BitcoinHistoryTableHandler.swift */; };
+		FFC2C95D238F1749008745A5 /* BitcoinPriceDetailTableHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C95C238F1749008745A5 /* BitcoinPriceDetailTableHandler.swift */; };
+		FFC2C965238F18AB008745A5 /* APIClientType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C962238F18AB008745A5 /* APIClientType.swift */; };
+		FFC2C966238F18AB008745A5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C963238F18AB008745A5 /* Endpoint.swift */; };
+		FFC2C967238F18AB008745A5 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C964238F18AB008745A5 /* APIClient.swift */; };
+		FFC2C96C238F18C9008745A5 /* APIClientLogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C968238F18C9008745A5 /* APIClientLogLevel.swift */; };
+		FFC2C96D238F18C9008745A5 /* APIClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C969238F18C9008745A5 /* APIClientError.swift */; };
+		FFC2C96E238F18C9008745A5 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C96A238F18C9008745A5 /* HttpMethod.swift */; };
+		FFC2C96F238F18C9008745A5 /* ResponseCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C96B238F18C9008745A5 /* ResponseCode.swift */; };
+		FFC2C972238F192E008745A5 /* BitcoinHistoryClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C971238F192E008745A5 /* BitcoinHistoryClient.swift */; };
+		FFC2C976238F1A14008745A5 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C975238F1A14008745A5 /* Assets.swift */; };
+		FFC2C979238F1A72008745A5 /* BitcoinHistoryWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C978238F1A72008745A5 /* BitcoinHistoryWorker.swift */; };
+		FFC2C97B238F1A80008745A5 /* BitcoinHistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C97A238F1A80008745A5 /* BitcoinHistoryStore.swift */; };
+		FFC2C97D238F1A8D008745A5 /* BitcoinHistoryMemStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C97C238F1A8D008745A5 /* BitcoinHistoryMemStore.swift */; };
+		FFC2C97F238F1A9E008745A5 /* BitcoinHistoryStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C97E238F1A9E008745A5 /* BitcoinHistoryStoreProtocol.swift */; };
+		FFC2C982238F1AE6008745A5 /* CoinDeskEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C981238F1AE6008745A5 /* CoinDeskEndpoint.swift */; };
+		FFC2C985238F1B52008745A5 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C984238F1B52008745A5 /* Date+.swift */; };
+		FFC2C988238F1D73008745A5 /* CurrencyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C987238F1D73008745A5 /* CurrencyCode.swift */; };
+		FFC2C98B238F23DF008745A5 /* HistoricalResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C98A238F23DF008745A5 /* HistoricalResponse.swift */; };
+		FFC2C98D238F23F1008745A5 /* CurrentPriceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C98C238F23F0008745A5 /* CurrentPriceResponse.swift */; };
+		FFC2C990238F2EDB008745A5 /* HistoricalList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C98F238F2EDB008745A5 /* HistoricalList.swift */; };
+		FFC2C992238F2EEF008745A5 /* PriceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C991238F2EEF008745A5 /* PriceDetail.swift */; };
+		FFC2C994238F3030008745A5 /* HistoricRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C993238F3030008745A5 /* HistoricRate.swift */; };
+		FFC2C996238F30FB008745A5 /* CurrencyDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C995238F30FB008745A5 /* CurrencyDetail.swift */; };
+		FFC2C998238F3D99008745A5 /* HistoryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C997238F3D99008745A5 /* HistoryTableCell.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		FFC2C916238F0DD4008745A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFC2C8D3238F0B00008745A5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FFC2C90A238F0DD4008745A5;
+			remoteInfo = BHTodayExtension;
+		};
+		FFC2C927238F0DEF008745A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFC2C8D3238F0B00008745A5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FFC2C921238F0DEF008745A5;
+			remoteInfo = BHKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FFC2C906238F0B98008745A5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FFC2C92A238F0DEF008745A5 /* BHKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFC2C91C238F0DD4008745A5 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FFC2C918238F0DD4008745A5 /* BHTodayExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		FFC2C8DB238F0B00008745A5 /* bitcoin-history.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bitcoin-history.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFC2C8DB238F0B00008745A5 /* Bitcoin History.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitcoin History.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFC2C8DE238F0B00008745A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FFC2C8E0238F0B00008745A5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FFC2C8E2238F0B00008745A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		FFC2C8E5238F0B00008745A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		FFC2C8E8238F0B00008745A5 /* bitcoin_history.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = bitcoin_history.xcdatamodel; sourceTree = "<group>"; };
 		FFC2C8EA238F0B02008745A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FFC2C8ED238F0B02008745A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FFC2C8EF238F0B02008745A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFC2C90B238F0DD4008745A5 /* BHTodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BHTodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFC2C90D238F0DD4008745A5 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		FFC2C910238F0DD4008745A5 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		FFC2C913238F0DD4008745A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		FFC2C915238F0DD4008745A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFC2C922238F0DEF008745A5 /* BHKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BHKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFC2C924238F0DEF008745A5 /* BHKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BHKit.h; sourceTree = "<group>"; };
+		FFC2C925238F0DEF008745A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFC2C931238F10E2008745A5 /* BitcoinPriceDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinPriceDetailPresenter.swift; sourceTree = "<group>"; };
+		FFC2C933238F10E2008745A5 /* BitcoinPriceDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinPriceDetailRouter.swift; sourceTree = "<group>"; };
+		FFC2C934238F10E2008745A5 /* BitcoinPriceDetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinPriceDetailModels.swift; sourceTree = "<group>"; };
+		FFC2C935238F10E2008745A5 /* BitcoinPriceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinPriceDetailViewController.swift; sourceTree = "<group>"; };
+		FFC2C936238F10E2008745A5 /* BitcoinPriceDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinPriceDetailInteractor.swift; sourceTree = "<group>"; };
+		FFC2C949238F1102008745A5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FFC2C94B238F120E008745A5 /* BitcoinHistoryListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryListPresenter.swift; sourceTree = "<group>"; };
+		FFC2C94D238F120E008745A5 /* BitcoinHistoryListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryListRouter.swift; sourceTree = "<group>"; };
+		FFC2C94E238F120E008745A5 /* BitcoinHistoryListModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryListModels.swift; sourceTree = "<group>"; };
+		FFC2C94F238F120E008745A5 /* BitcoinHistoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryListViewController.swift; sourceTree = "<group>"; };
+		FFC2C950238F120E008745A5 /* BitcoinHistoryListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryListInteractor.swift; sourceTree = "<group>"; };
+		FFC2C95A238F172E008745A5 /* BitcoinHistoryTableHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryTableHandler.swift; sourceTree = "<group>"; };
+		FFC2C95C238F1749008745A5 /* BitcoinPriceDetailTableHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinPriceDetailTableHandler.swift; sourceTree = "<group>"; };
+		FFC2C962238F18AB008745A5 /* APIClientType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClientType.swift; sourceTree = "<group>"; };
+		FFC2C963238F18AB008745A5 /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		FFC2C964238F18AB008745A5 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		FFC2C968238F18C9008745A5 /* APIClientLogLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClientLogLevel.swift; sourceTree = "<group>"; };
+		FFC2C969238F18C9008745A5 /* APIClientError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClientError.swift; sourceTree = "<group>"; };
+		FFC2C96A238F18C9008745A5 /* HttpMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		FFC2C96B238F18C9008745A5 /* ResponseCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseCode.swift; sourceTree = "<group>"; };
+		FFC2C971238F192E008745A5 /* BitcoinHistoryClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryClient.swift; sourceTree = "<group>"; };
+		FFC2C975238F1A14008745A5 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		FFC2C978238F1A72008745A5 /* BitcoinHistoryWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryWorker.swift; sourceTree = "<group>"; };
+		FFC2C97A238F1A80008745A5 /* BitcoinHistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryStore.swift; sourceTree = "<group>"; };
+		FFC2C97C238F1A8D008745A5 /* BitcoinHistoryMemStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryMemStore.swift; sourceTree = "<group>"; };
+		FFC2C97E238F1A9E008745A5 /* BitcoinHistoryStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinHistoryStoreProtocol.swift; sourceTree = "<group>"; };
+		FFC2C981238F1AE6008745A5 /* CoinDeskEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDeskEndpoint.swift; sourceTree = "<group>"; };
+		FFC2C984238F1B52008745A5 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		FFC2C987238F1D73008745A5 /* CurrencyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCode.swift; sourceTree = "<group>"; };
+		FFC2C98A238F23DF008745A5 /* HistoricalResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalResponse.swift; sourceTree = "<group>"; };
+		FFC2C98C238F23F0008745A5 /* CurrentPriceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentPriceResponse.swift; sourceTree = "<group>"; };
+		FFC2C98F238F2EDB008745A5 /* HistoricalList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalList.swift; sourceTree = "<group>"; };
+		FFC2C991238F2EEF008745A5 /* PriceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceDetail.swift; sourceTree = "<group>"; };
+		FFC2C993238F3030008745A5 /* HistoricRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricRate.swift; sourceTree = "<group>"; };
+		FFC2C995238F30FB008745A5 /* CurrencyDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyDetail.swift; sourceTree = "<group>"; };
+		FFC2C997238F3D99008745A5 /* HistoryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		FFC2C8D8238F0B00008745A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFC2C929238F0DEF008745A5 /* BHKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFC2C908238F0DD4008745A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFC2C90E238F0DD4008745A5 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFC2C91F238F0DEF008745A5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,7 +178,11 @@
 		FFC2C8D2238F0B00008745A5 = {
 			isa = PBXGroup;
 			children = (
+				FFC2C949238F1102008745A5 /* README.md */,
 				FFC2C8DD238F0B00008745A5 /* bitcoin-history */,
+				FFC2C90F238F0DD4008745A5 /* BHTodayExtension */,
+				FFC2C923238F0DEF008745A5 /* BHKit */,
+				FFC2C90C238F0DD4008745A5 /* Frameworks */,
 				FFC2C8DC238F0B00008745A5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,7 +190,9 @@
 		FFC2C8DC238F0B00008745A5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FFC2C8DB238F0B00008745A5 /* bitcoin-history.app */,
+				FFC2C8DB238F0B00008745A5 /* Bitcoin History.app */,
+				FFC2C90B238F0DD4008745A5 /* BHTodayExtension.appex */,
+				FFC2C922238F0DEF008745A5 /* BHKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -59,18 +201,223 @@
 			isa = PBXGroup;
 			children = (
 				FFC2C8DE238F0B00008745A5 /* AppDelegate.swift */,
-				FFC2C8E0238F0B00008745A5 /* SceneDelegate.swift */,
-				FFC2C8E2238F0B00008745A5 /* ViewController.swift */,
-				FFC2C8E4238F0B00008745A5 /* Main.storyboard */,
+				FFC2C974238F1A08008745A5 /* Constants */,
+				FFC2C92F238F10B2008745A5 /* Scenes */,
 				FFC2C8EA238F0B02008745A5 /* Assets.xcassets */,
 				FFC2C8EC238F0B02008745A5 /* LaunchScreen.storyboard */,
 				FFC2C8EF238F0B02008745A5 /* Info.plist */,
-				FFC2C8E7238F0B00008745A5 /* bitcoin_history.xcdatamodeld */,
 			);
 			path = "bitcoin-history";
 			sourceTree = "<group>";
 		};
+		FFC2C90C238F0DD4008745A5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C90D238F0DD4008745A5 /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FFC2C90F238F0DD4008745A5 /* BHTodayExtension */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C910238F0DD4008745A5 /* TodayViewController.swift */,
+				FFC2C912238F0DD4008745A5 /* MainInterface.storyboard */,
+				FFC2C915238F0DD4008745A5 /* Info.plist */,
+			);
+			path = BHTodayExtension;
+			sourceTree = "<group>";
+		};
+		FFC2C923238F0DEF008745A5 /* BHKit */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C98E238F2BF3008745A5 /* Models */,
+				FFC2C986238F1D5B008745A5 /* Enums */,
+				FFC2C983238F1B45008745A5 /* Library */,
+				FFC2C977238F1A56008745A5 /* Stores */,
+				FFC2C973238F19E9008745A5 /* Workers */,
+				FFC2C960238F17C0008745A5 /* UI */,
+				FFC2C95F238F17B5008745A5 /* Networking */,
+				FFC2C924238F0DEF008745A5 /* BHKit.h */,
+				FFC2C925238F0DEF008745A5 /* Info.plist */,
+			);
+			path = BHKit;
+			sourceTree = "<group>";
+		};
+		FFC2C92E238F109F008745A5 /* BitcoinHistoryList */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C959238F1719008745A5 /* TableView */,
+				FFC2C94B238F120E008745A5 /* BitcoinHistoryListPresenter.swift */,
+				FFC2C94D238F120E008745A5 /* BitcoinHistoryListRouter.swift */,
+				FFC2C94E238F120E008745A5 /* BitcoinHistoryListModels.swift */,
+				FFC2C94F238F120E008745A5 /* BitcoinHistoryListViewController.swift */,
+				FFC2C950238F120E008745A5 /* BitcoinHistoryListInteractor.swift */,
+			);
+			path = BitcoinHistoryList;
+			sourceTree = "<group>";
+		};
+		FFC2C92F238F10B2008745A5 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C92E238F109F008745A5 /* BitcoinHistoryList */,
+				FFC2C930238F10BD008745A5 /* BitcoinPriceDetail */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		FFC2C930238F10BD008745A5 /* BitcoinPriceDetail */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C958238F1707008745A5 /* TableView */,
+				FFC2C931238F10E2008745A5 /* BitcoinPriceDetailPresenter.swift */,
+				FFC2C933238F10E2008745A5 /* BitcoinPriceDetailRouter.swift */,
+				FFC2C934238F10E2008745A5 /* BitcoinPriceDetailModels.swift */,
+				FFC2C935238F10E2008745A5 /* BitcoinPriceDetailViewController.swift */,
+				FFC2C936238F10E2008745A5 /* BitcoinPriceDetailInteractor.swift */,
+			);
+			path = BitcoinPriceDetail;
+			sourceTree = "<group>";
+		};
+		FFC2C958238F1707008745A5 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C95C238F1749008745A5 /* BitcoinPriceDetailTableHandler.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		FFC2C959238F1719008745A5 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C95A238F172E008745A5 /* BitcoinHistoryTableHandler.swift */,
+				FFC2C997238F3D99008745A5 /* HistoryTableCell.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		FFC2C95F238F17B5008745A5 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C971238F192E008745A5 /* BitcoinHistoryClient.swift */,
+				FFC2C989238F236C008745A5 /* ResponseModels */,
+				FFC2C980238F1AC7008745A5 /* Endpoints */,
+				FFC2C970238F18F6008745A5 /* Helpers */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		FFC2C960238F17C0008745A5 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		FFC2C961238F1899008745A5 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C969238F18C9008745A5 /* APIClientError.swift */,
+				FFC2C968238F18C9008745A5 /* APIClientLogLevel.swift */,
+				FFC2C96A238F18C9008745A5 /* HttpMethod.swift */,
+				FFC2C96B238F18C9008745A5 /* ResponseCode.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		FFC2C970238F18F6008745A5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C961238F1899008745A5 /* Enums */,
+				FFC2C964238F18AB008745A5 /* APIClient.swift */,
+				FFC2C962238F18AB008745A5 /* APIClientType.swift */,
+				FFC2C963238F18AB008745A5 /* Endpoint.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		FFC2C973238F19E9008745A5 /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C978238F1A72008745A5 /* BitcoinHistoryWorker.swift */,
+			);
+			path = Workers;
+			sourceTree = "<group>";
+		};
+		FFC2C974238F1A08008745A5 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C975238F1A14008745A5 /* Assets.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		FFC2C977238F1A56008745A5 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C97E238F1A9E008745A5 /* BitcoinHistoryStoreProtocol.swift */,
+				FFC2C97C238F1A8D008745A5 /* BitcoinHistoryMemStore.swift */,
+				FFC2C97A238F1A80008745A5 /* BitcoinHistoryStore.swift */,
+			);
+			path = Stores;
+			sourceTree = "<group>";
+		};
+		FFC2C980238F1AC7008745A5 /* Endpoints */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C981238F1AE6008745A5 /* CoinDeskEndpoint.swift */,
+			);
+			path = Endpoints;
+			sourceTree = "<group>";
+		};
+		FFC2C983238F1B45008745A5 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C984238F1B52008745A5 /* Date+.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		FFC2C986238F1D5B008745A5 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C987238F1D73008745A5 /* CurrencyCode.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		FFC2C989238F236C008745A5 /* ResponseModels */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C98A238F23DF008745A5 /* HistoricalResponse.swift */,
+				FFC2C98C238F23F0008745A5 /* CurrentPriceResponse.swift */,
+			);
+			path = ResponseModels;
+			sourceTree = "<group>";
+		};
+		FFC2C98E238F2BF3008745A5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FFC2C98F238F2EDB008745A5 /* HistoricalList.swift */,
+				FFC2C991238F2EEF008745A5 /* PriceDetail.swift */,
+				FFC2C993238F3030008745A5 /* HistoricRate.swift */,
+				FFC2C995238F30FB008745A5 /* CurrencyDetail.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		FFC2C91D238F0DEF008745A5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFC2C926238F0DEF008745A5 /* BHKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		FFC2C8DA238F0B00008745A5 /* bitcoin-history */ = {
@@ -80,15 +427,54 @@
 				FFC2C8D7238F0B00008745A5 /* Sources */,
 				FFC2C8D8238F0B00008745A5 /* Frameworks */,
 				FFC2C8D9238F0B00008745A5 /* Resources */,
+				FFC2C906238F0B98008745A5 /* Embed Frameworks */,
+				FFC2C91C238F0DD4008745A5 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FFC2C917238F0DD4008745A5 /* PBXTargetDependency */,
+				FFC2C928238F0DEF008745A5 /* PBXTargetDependency */,
+			);
+			name = "bitcoin-history";
+			productName = "bitcoin-history";
+			productReference = FFC2C8DB238F0B00008745A5 /* Bitcoin History.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FFC2C90A238F0DD4008745A5 /* BHTodayExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFC2C919238F0DD4008745A5 /* Build configuration list for PBXNativeTarget "BHTodayExtension" */;
+			buildPhases = (
+				FFC2C907238F0DD4008745A5 /* Sources */,
+				FFC2C908238F0DD4008745A5 /* Frameworks */,
+				FFC2C909238F0DD4008745A5 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "bitcoin-history";
-			productName = "bitcoin-history";
-			productReference = FFC2C8DB238F0B00008745A5 /* bitcoin-history.app */;
-			productType = "com.apple.product-type.application";
+			name = BHTodayExtension;
+			productName = BHTodayExtension;
+			productReference = FFC2C90B238F0DD4008745A5 /* BHTodayExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		FFC2C921238F0DEF008745A5 /* BHKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFC2C92B238F0DEF008745A5 /* Build configuration list for PBXNativeTarget "BHKit" */;
+			buildPhases = (
+				FFC2C91D238F0DEF008745A5 /* Headers */,
+				FFC2C91E238F0DEF008745A5 /* Sources */,
+				FFC2C91F238F0DEF008745A5 /* Frameworks */,
+				FFC2C920238F0DEF008745A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BHKit;
+			productName = BHKit;
+			productReference = FFC2C922238F0DEF008745A5 /* BHKit.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -102,6 +488,13 @@
 				TargetAttributes = {
 					FFC2C8DA238F0B00008745A5 = {
 						CreatedOnToolsVersion = 11.2.1;
+					};
+					FFC2C90A238F0DD4008745A5 = {
+						CreatedOnToolsVersion = 11.2.1;
+					};
+					FFC2C921238F0DEF008745A5 = {
+						CreatedOnToolsVersion = 11.2.1;
+						LastSwiftMigration = 1120;
 					};
 				};
 			};
@@ -119,6 +512,8 @@
 			projectRoot = "";
 			targets = (
 				FFC2C8DA238F0B00008745A5 /* bitcoin-history */,
+				FFC2C90A238F0DD4008745A5 /* BHTodayExtension */,
+				FFC2C921238F0DEF008745A5 /* BHKit */,
 			);
 		};
 /* End PBXProject section */
@@ -130,7 +525,21 @@
 			files = (
 				FFC2C8EE238F0B02008745A5 /* LaunchScreen.storyboard in Resources */,
 				FFC2C8EB238F0B02008745A5 /* Assets.xcassets in Resources */,
-				FFC2C8E6238F0B00008745A5 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFC2C909238F0DD4008745A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFC2C914238F0DD4008745A5 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFC2C920238F0DEF008745A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,30 +550,90 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFC2C8E3238F0B00008745A5 /* ViewController.swift in Sources */,
-				FFC2C8E9238F0B00008745A5 /* bitcoin_history.xcdatamodeld in Sources */,
+				FFC2C93B238F10E2008745A5 /* BitcoinPriceDetailViewController.swift in Sources */,
+				FFC2C953238F120E008745A5 /* BitcoinHistoryListRouter.swift in Sources */,
+				FFC2C951238F120E008745A5 /* BitcoinHistoryListPresenter.swift in Sources */,
+				FFC2C93A238F10E2008745A5 /* BitcoinPriceDetailModels.swift in Sources */,
+				FFC2C939238F10E2008745A5 /* BitcoinPriceDetailRouter.swift in Sources */,
+				FFC2C95D238F1749008745A5 /* BitcoinPriceDetailTableHandler.swift in Sources */,
+				FFC2C956238F120E008745A5 /* BitcoinHistoryListInteractor.swift in Sources */,
+				FFC2C93C238F10E2008745A5 /* BitcoinPriceDetailInteractor.swift in Sources */,
+				FFC2C976238F1A14008745A5 /* Assets.swift in Sources */,
+				FFC2C955238F120E008745A5 /* BitcoinHistoryListViewController.swift in Sources */,
+				FFC2C998238F3D99008745A5 /* HistoryTableCell.swift in Sources */,
+				FFC2C954238F120E008745A5 /* BitcoinHistoryListModels.swift in Sources */,
+				FFC2C937238F10E2008745A5 /* BitcoinPriceDetailPresenter.swift in Sources */,
+				FFC2C95B238F172E008745A5 /* BitcoinHistoryTableHandler.swift in Sources */,
 				FFC2C8DF238F0B00008745A5 /* AppDelegate.swift in Sources */,
-				FFC2C8E1238F0B00008745A5 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFC2C907238F0DD4008745A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFC2C911238F0DD4008745A5 /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFC2C91E238F0DEF008745A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFC2C979238F1A72008745A5 /* BitcoinHistoryWorker.swift in Sources */,
+				FFC2C96F238F18C9008745A5 /* ResponseCode.swift in Sources */,
+				FFC2C98D238F23F1008745A5 /* CurrentPriceResponse.swift in Sources */,
+				FFC2C966238F18AB008745A5 /* Endpoint.swift in Sources */,
+				FFC2C992238F2EEF008745A5 /* PriceDetail.swift in Sources */,
+				FFC2C97B238F1A80008745A5 /* BitcoinHistoryStore.swift in Sources */,
+				FFC2C98B238F23DF008745A5 /* HistoricalResponse.swift in Sources */,
+				FFC2C996238F30FB008745A5 /* CurrencyDetail.swift in Sources */,
+				FFC2C97D238F1A8D008745A5 /* BitcoinHistoryMemStore.swift in Sources */,
+				FFC2C96C238F18C9008745A5 /* APIClientLogLevel.swift in Sources */,
+				FFC2C965238F18AB008745A5 /* APIClientType.swift in Sources */,
+				FFC2C985238F1B52008745A5 /* Date+.swift in Sources */,
+				FFC2C97F238F1A9E008745A5 /* BitcoinHistoryStoreProtocol.swift in Sources */,
+				FFC2C96D238F18C9008745A5 /* APIClientError.swift in Sources */,
+				FFC2C96E238F18C9008745A5 /* HttpMethod.swift in Sources */,
+				FFC2C994238F3030008745A5 /* HistoricRate.swift in Sources */,
+				FFC2C972238F192E008745A5 /* BitcoinHistoryClient.swift in Sources */,
+				FFC2C988238F1D73008745A5 /* CurrencyCode.swift in Sources */,
+				FFC2C990238F2EDB008745A5 /* HistoricalList.swift in Sources */,
+				FFC2C967238F18AB008745A5 /* APIClient.swift in Sources */,
+				FFC2C982238F1AE6008745A5 /* CoinDeskEndpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		FFC2C8E4238F0B00008745A5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FFC2C8E5238F0B00008745A5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
+/* Begin PBXTargetDependency section */
+		FFC2C917238F0DD4008745A5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FFC2C90A238F0DD4008745A5 /* BHTodayExtension */;
+			targetProxy = FFC2C916238F0DD4008745A5 /* PBXContainerItemProxy */;
 		};
+		FFC2C928238F0DEF008745A5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FFC2C921238F0DEF008745A5 /* BHKit */;
+			targetProxy = FFC2C927238F0DEF008745A5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
 		FFC2C8EC238F0B02008745A5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				FFC2C8ED238F0B02008745A5 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		FFC2C912238F0DD4008745A5 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FFC2C913238F0DD4008745A5 /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -220,7 +689,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -274,7 +743,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -287,6 +756,7 @@
 		FFC2C8F3238F0B02008745A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2DX87RQR8M;
@@ -296,7 +766,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.josepbordes.bitcoin-history";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Bitcoin History";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -305,6 +775,7 @@
 		FFC2C8F4238F0B02008745A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2DX87RQR8M;
@@ -314,9 +785,106 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.josepbordes.bitcoin-history";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Bitcoin History";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FFC2C91A238F0DD4008745A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2DX87RQR8M;
+				INFOPLIST_FILE = BHTodayExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.josepbordes.bitcoin-history.BHTodayExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FFC2C91B238F0DD4008745A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2DX87RQR8M;
+				INFOPLIST_FILE = BHTodayExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.josepbordes.bitcoin-history.BHTodayExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FFC2C92C238F0DEF008745A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 2DX87RQR8M;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = BHKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.BHKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FFC2C92D238F0DEF008745A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 2DX87RQR8M;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = BHKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.BHKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -341,20 +909,25 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-/* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		FFC2C8E7238F0B00008745A5 /* bitcoin_history.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				FFC2C8E8238F0B00008745A5 /* bitcoin_history.xcdatamodel */,
+		FFC2C919238F0DD4008745A5 /* Build configuration list for PBXNativeTarget "BHTodayExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFC2C91A238F0DD4008745A5 /* Debug */,
+				FFC2C91B238F0DD4008745A5 /* Release */,
 			);
-			currentVersion = FFC2C8E8238F0B00008745A5 /* bitcoin_history.xcdatamodel */;
-			path = bitcoin_history.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-/* End XCVersionGroup section */
+		FFC2C92B238F0DEF008745A5 /* Build configuration list for PBXNativeTarget "BHKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFC2C92C238F0DEF008745A5 /* Debug */,
+				FFC2C92D238F0DEF008745A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
 	};
 	rootObject = FFC2C8D3238F0B00008745A5 /* Project object */;
 }

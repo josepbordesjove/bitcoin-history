@@ -15,37 +15,127 @@ import BHKit
 
 protocol BitcoinHistoryListBusinessLogic {
   func prepareView(request: BitcoinHistoryList.PrepareView.Request)
+  func startUpdatingTodayRate(request: BitcoinHistoryList.StartUpdatingForPrice.Request)
+  func stopUpdatingTodayRate(request: BitcoinHistoryList.StopUpdatingForPrice.Request)
+  func forceUpdateTodaysRate(request: BitcoinHistoryList.ForceUpdateTodaysRate.Request)
 }
 
 protocol BitcoinHistoryListDataStore {
   var historicalList: HistoricalList? { get set }
+  var todayRate: PriceDetail? { get set }
 }
 
 class BitcoinHistoryListInteractor: BitcoinHistoryListBusinessLogic, BitcoinHistoryListDataStore {
   var presenter: BitcoinHistoryListPresentationLogic?
+  var timer: Timer?
   
   // MARK: Data store
   
   var historicalList: HistoricalList?
+  var todayRate: PriceDetail?
+  
+  // MARK: Private vars
+  
+  var sections: [BitconHistorySection] = []
   
   // MARK: Workers
   
-  var bitcoinHistoryWorker = BitcoinHistoryWorker(store: BitcoinHistoryStore())
+  var worker = Worker(store: Store())
   
   // MARK: Business logic
   
   func prepareView(request: BitcoinHistoryList.PrepareView.Request) {
+    getHistoricalList { (result) in
+      let response = BitcoinHistoryList.PrepareView.Response(result: result)
+      self.presenter?.presentView(response: response)
+    }
     
-    bitcoinHistoryWorker.getHistorical(start: nil, end: nil) { (result) in
-      switch result {
-      case .success(let list):
-        self.historicalList = list
-        let response = BitcoinHistoryList.PrepareView.Response(result: result)
-        self.presenter?.presentView(response: response)
-      case .failure:
-        let response = BitcoinHistoryList.PrepareView.Response(result: result)
-        self.presenter?.presentView(response: response)
+    getTodaysRate { (result) in
+      let response = BitcoinHistoryList.PrepareView.Response(result: result)
+      self.presenter?.presentView(response: response)
+    }
+  }
+  
+  func startUpdatingTodayRate(request: BitcoinHistoryList.StartUpdatingForPrice.Request) {
+    if timer != nil {
+      return
+    }
+    
+    let timeIntervalToRefresh: Double = 60
+
+    timer = Timer.scheduledTimer(withTimeInterval: timeIntervalToRefresh, repeats: true) { (_) in
+      self.getTodaysRate { (result) in
+        let response = BitcoinHistoryList.StartUpdatingForPrice.Response(result: result)
+        self.presenter?.presentStartUpdatingTodayRate(response: response)
       }
     }
+  }
+  
+  func stopUpdatingTodayRate(request: BitcoinHistoryList.StopUpdatingForPrice.Request) {
+    timer?.invalidate()
+    timer = nil
+    
+    let response = BitcoinHistoryList.StopUpdatingForPrice.Response()
+    presenter?.presentStopUpdatingTodayRate(response: response)
+  }
+  
+  func forceUpdateTodaysRate(request: BitcoinHistoryList.ForceUpdateTodaysRate.Request) {
+    getTodaysRate { (result) in
+      let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(result: result)
+      self.presenter?.presentForceUpdateTodaysRate(response: response)
+    }
+  }
+  
+  // MARK: Helpers
+  
+  private func getTodaysRate(completion: @escaping (Result<[BitconHistorySection], Error>) -> Void) {
+    self.worker.getCurrentPrice { (result) in
+      switch result {
+      case .success(let todayRate):
+        self.handleTodayRateSuccess(todayRate)
+        completion(.success(self.sections))
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
+  }
+  
+  private func getHistoricalList(completion: @escaping (Result<[BitconHistorySection], Error>) -> Void) {
+    let initialDate = getDate(minusDays: 14)
+    let finalDate = Date()
+
+    worker.getHistorical(start: initialDate, end: finalDate) { (result) in
+      switch result {
+      case .success(let historicalList):
+        self.handleHistoricalListSuccess(historicalList)
+        completion(.success(self.sections))
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
+  }
+  
+  private func handleHistoricalListSuccess(_ historicalList: HistoricalList) {
+    if let index = self.sections.firstIndex(of: .historic(list: historicalList)) {
+      self.sections[index] = .historic(list: historicalList)
+    } else {
+      self.sections.append(.historic(list: historicalList))
+    }
+    
+    self.historicalList = historicalList
+  }
+  
+  private func handleTodayRateSuccess(_ todayRate: PriceDetail) {
+    if let index = self.sections.firstIndex(of: .today(detail: todayRate)) {
+      self.sections[index] = .today(detail: todayRate)
+    } else {
+      self.sections.append(.today(detail: todayRate))
+    }
+    
+    self.todayRate = todayRate
+  }
+  
+  private func getDate(minusDays: Double) -> Date {
+    return Date(timeIntervalSinceNow: -minusDays*24*60*60)
   }
 }

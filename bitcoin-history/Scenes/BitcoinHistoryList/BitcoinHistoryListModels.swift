@@ -20,10 +20,41 @@ enum BitcoinHistoryList {
     struct Request {
     }
     struct Response {
-      let result: Result<HistoricalList, Error>
+      let result: Result<[BitconHistorySection], Error>
     }
     struct ViewModel {
-      let result: Result<HistoricalList, Error>
+      let result: Result<[BitconHistorySection], Error>
+    }
+  }
+  
+  enum ForceUpdateTodaysRate {
+    struct Request {
+    }
+    struct Response {
+      let result: Result<[BitconHistorySection], Error>
+    }
+    struct ViewModel {
+      let result: Result<[BitconHistorySection], Error>
+    }
+  }
+  
+  enum StartUpdatingForPrice {
+    struct Request {
+    }
+    struct Response {
+      let result: Result<[BitconHistorySection], Error>
+    }
+    struct ViewModel {
+      let result: Result<[BitconHistorySection], Error>
+    }
+  }
+  
+  enum StopUpdatingForPrice {
+    struct Request {
+    }
+    struct Response {
+    }
+    struct ViewModel {
     }
   }
 }

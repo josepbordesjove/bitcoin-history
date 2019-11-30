@@ -14,13 +14,52 @@ import UIKit
 
 protocol BitcoinHistoryListPresentationLogic {
   func presentView(response: BitcoinHistoryList.PrepareView.Response)
+  func presentStartUpdatingTodayRate(response: BitcoinHistoryList.StartUpdatingForPrice.Response)
+  func presentStopUpdatingTodayRate(response: BitcoinHistoryList.StopUpdatingForPrice.Response)
+  func presentForceUpdateTodaysRate(response: BitcoinHistoryList.ForceUpdateTodaysRate.Response)
 }
 
 class BitcoinHistoryListPresenter: BitcoinHistoryListPresentationLogic {
   weak var viewController: BitcoinHistoryListDisplayLogic?
   
   func presentView(response: BitcoinHistoryList.PrepareView.Response) {
-    let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: response.result)
-    viewController?.displayView(viewModel: viewModel)
+    switch response.result {
+    case .success(let sections):
+      let sortedSections = sections.sorted { $0.position < $1.position }
+      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .success(sortedSections))
+      viewController?.displayView(viewModel: viewModel)
+    case .failure(let error):
+      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .failure(error))
+      viewController?.displayView(viewModel: viewModel)
+    }
+  }
+  
+  func presentStartUpdatingTodayRate(response: BitcoinHistoryList.StartUpdatingForPrice.Response) {
+    switch response.result {
+    case .success(let sections):
+      let sortedSections = sections.sorted { $0.position < $1.position }
+      let viewModel = BitcoinHistoryList.StartUpdatingForPrice.ViewModel(result: .success(sortedSections))
+      viewController?.displayStartUpdatingTodayRate(viewModel: viewModel)
+    case .failure(let error):
+      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .failure(error))
+      viewController?.displayView(viewModel: viewModel)
+    }
+  }
+
+  func presentStopUpdatingTodayRate(response: BitcoinHistoryList.StopUpdatingForPrice.Response) {
+    let viewModel = BitcoinHistoryList.StopUpdatingForPrice.ViewModel()
+    viewController?.displayStopUpdatingTodayRate(viewModel: viewModel)
+  }
+  
+  func presentForceUpdateTodaysRate(response: BitcoinHistoryList.ForceUpdateTodaysRate.Response) {
+    switch response.result {
+    case .success(let sections):
+      let sortedSections = sections.sorted { $0.position < $1.position }
+      let viewModel = BitcoinHistoryList.ForceUpdateTodaysRate.ViewModel(result: .success(sortedSections))
+      viewController?.displayForceUpdateTodaysRate(viewModel: viewModel)
+    case .failure(let error):
+      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .failure(error))
+      viewController?.displayView(viewModel: viewModel)
+    }
   }
 }

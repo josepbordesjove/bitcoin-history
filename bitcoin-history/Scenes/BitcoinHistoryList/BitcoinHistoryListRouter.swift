@@ -11,9 +11,12 @@
 //
 
 import UIKit
+import BHUIKit
 
 @objc protocol BitcoinHistoryListRoutingLogic {
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+  func routeToInfoDisclaimer()
+  func routeToBitcoinRateDetail()
+  func updateDataToBitcoinRateDetailIfPresented()
 }
 
 protocol BitcoinHistoryListDataPassing {
@@ -26,32 +29,64 @@ class BitcoinHistoryListRouter: NSObject, BitcoinHistoryListRoutingLogic, Bitcoi
   
   // MARK: Routing
   
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
-  //{
-  //  if let segue = segue {
-  //    let destinationVC = segue.destination as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //  } else {
-  //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-  //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-  //  }
-  //}
+  func routeToInfoDisclaimer() {
+    var message = NSLocalizedString("Something basic to inform about the price, disclaiming about the showed info", comment: "")
+    
+    if let todayDisclaimer = dataStore?.todayRate?.disclaimer {
+      message = todayDisclaimer
+    }
+    
+    let alertController = UIAlertController(title: NSLocalizedString("Disclaimer", comment: ""), message: message, preferredStyle: .alert)
+    let acceptAction = UIAlertAction(title: NSLocalizedString("Accept", comment: ""), style: .default, handler: nil)
+    
+    alertController.addAction(acceptAction)
+    viewController?.present(alertController, animated: true, completion: nil)
+  }
+  
+  func routeToBitcoinRateDetail() {
+    let destinationVC = BitcoinPriceDetailViewController(nibName: nil, bundle: nil)
+    var destinationDS = destinationVC.router!.dataStore!
+    passDataToBitcoinPriceDetail(source: dataStore!, destination: &destinationDS)
+    navigateToBitcoinPriceDetail(source: viewController!, destination: destinationVC)
+  }
+  
+  func updateDataToBitcoinRateDetailIfPresented() {
+    guard let rootController = UIApplication.shared.keyWindow?.rootViewController as? UISplitViewController else {
+        return
+    }
+    
+    rootController.viewControllers.forEach { (viewController) in
+      if let navigationViewController = viewController as? UINavigationController {
+        navigationViewController.viewControllers.forEach { (viewController) in
+          if let detailViewController = viewController as? BitcoinPriceDetailViewController {
+            var destinationDS = detailViewController.router!.dataStore!
+            passDataToBitcoinPriceDetail(source: dataStore!, destination: &destinationDS)
+            detailViewController.prepareView()
+          }
+        }
+      }
+    }
+  }
 
   // MARK: Navigation
   
-  //func navigateToSomewhere(source: BitcoinHistoryListViewController, destination: SomewhereViewController)
-  //{
-  //  source.show(destination, sender: nil)
-  //}
+  func navigateToBitcoinPriceDetail(source: BitcoinHistoryListViewController, destination: BitcoinPriceDetailViewController) {
+    let detailViewController = UINavigationController(rootViewController: destination)
+    detailViewController.navigationBar.tintColor = Color.brand
+    source.showDetailViewController(detailViewController, sender: self)
+  }
   
   // MARK: Passing data
   
-  //func passDataToSomewhere(source: BitcoinHistoryListDataStore, destination: inout SomewhereDataStore)
-  //{
-  //  destination.name = source.name
-  //}
+  func passDataToBitcoinPriceDetail(source: BitcoinHistoryListDataStore, destination: inout BitcoinPriceDetailDataStore) {
+    if let selectedIndexPath = viewController?.tableView.indexPathForSelectedRow {
+      if selectedIndexPath.section == 0 {
+        destination.dayRate = source.todayRate
+      } else if let historicRate = source.historicalList?.historicRates[selectedIndexPath.row] {
+        destination.date = historicRate.date
+      }
+    } else {
+      assertionFailure("If this methos has been called it means that a cell has been selected")
+    }
+  }
 }

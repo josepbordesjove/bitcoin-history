@@ -10,10 +10,12 @@ import Foundation
 
 class BitcoinHistoryClient: APIClient {
   var logLevel: APIClientLogLevel
+  
+  // MARK: Object lifecycle
 
   init() {
     #if DEBUG
-    self.logLevel = .debug
+    self.logLevel = .minimum
     #else
     self.logLevel = .none
     #endif

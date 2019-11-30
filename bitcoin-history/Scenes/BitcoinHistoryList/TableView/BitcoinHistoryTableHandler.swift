@@ -9,12 +9,19 @@
 import UIKit
 import BHKit
 
+protocol BitcoinHistoryTableHandlerDelegate: class {
+  func didSelectRow(at indexPath: IndexPath)
+}
+
 class BitcoinHistoryTableHandler: NSObject, UITableViewDataSource, UITableViewDelegate {
-  private(set) var historicalList: HistoricalList
+  private(set) var sections: [BitconHistorySection]
   weak var tableView: UITableView?
+  weak var delegate: BitcoinHistoryTableHandlerDelegate?
   
-  init(historicalList: HistoricalList, tableView: UITableView) {
-    self.historicalList = historicalList
+  // MARK: Object lifecycle
+  
+  init(sections: [BitconHistorySection], tableView: UITableView) {
+    self.sections = sections
     self.tableView = tableView
     super.init()
     
@@ -28,33 +35,60 @@ class BitcoinHistoryTableHandler: NSObject, UITableViewDataSource, UITableViewDe
   // MARK: Private methods
   
   private func registerCells() {
-    tableView?.register(HistoryTableCell.self, forCellReuseIdentifier: HistoryTableCell.identifier)
+    tableView?.register(cell: HistoryTableCell.self)
+    tableView?.register(cell: TodayTableCell.self)
   }
   
   // MARK: Public methods
 
-  public func update(historicalList: HistoricalList) {
-    self.historicalList = historicalList
-    self.tableView?.reloadData()
+  public func update(sections: [BitconHistorySection]) {
+    self.sections = sections
+    
+    let tableSelectedRows = tableView?.indexPathsForSelectedRows ?? []
+
+    tableView?.reloadData()
+
+    tableSelectedRows.forEach { (indexPathSelected) in
+      tableView?.selectRow(at: indexPathSelected, animated: false, scrollPosition: .none)
+    }
   }
   
   // MARK: Table view data source
   
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return sections.count
+  }
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return historicalList.historicRates.count
+    switch sections[section] {
+    case .today:
+      return 1
+    case .historic(let list):
+      return list.historicRates.count
+    }
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(withIdentifier: HistoryTableCell.identifier, for: indexPath) as? HistoryTableCell else {
-      assertionFailure("The cell must be always dequeueable")
-      return UITableViewCell()
+    switch sections[indexPath.section] {
+    case .today(let detail):
+      let cell = tableView.dequeue(cell: TodayTableCell.self, indexPath: indexPath)
+      cell.setup(with: detail)
+      return cell
+    case .historic(let list):
+      let cell = tableView.dequeue(cell: HistoryTableCell.self, indexPath: indexPath)
+      let historicRate = list.historicRates[indexPath.row]
+      cell.setup(with: historicRate.date.toFormattedString(), rateFormatted: historicRate.rateLocaleFormatted, currencyCode: list.currencyCode)
+      return cell
     }
-    
-    let historicRate = historicalList.historicRates[indexPath.row]
-    cell.setup(with: historicRate.date, rate: historicRate.rate)
-
-    return cell
   }
   
   // MARK: Table view delegate
+  
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return UITableView.automaticDimension
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    delegate?.didSelectRow(at: indexPath)
+  }
 }

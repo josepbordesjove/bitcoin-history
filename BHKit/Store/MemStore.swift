@@ -1,5 +1,5 @@
 //
-//  BitcoinHistoryMemStore.swift
+//  MemStore.swift
 //  BHKit
 //
 //  Created by Josep Bordes Jové on 27/11/2019.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class BitcoinHistoryMemStore: BitcoinHistoryStoreProtocol {
+public class MemStore: StoreProtocol {
   // MARK: Object lifecycle
   
   public init() { }
@@ -20,6 +20,10 @@ public class BitcoinHistoryMemStore: BitcoinHistoryStoreProtocol {
   }
   
   public func getHistorical(start: Date?, end: Date?, currencyCode: CurrencyCode?, completion: @escaping (Result<HistoricalList, Error>) -> Void) {
+    // Handle mem completion
+  }
+  
+  public func getHistoricDetail(date: Date, completion: @escaping (Result<PriceDetail, Error>) -> Void) {
     // Handle mem completion
   }
 }

@@ -6,4 +6,48 @@
 //  Copyright © 2019 Josep Bordes Jové. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import BHKit
+
+class BitcoinPriceDetailTableHandler: NSObject, UITableViewDataSource {
+  private(set) var currencyDetails: [CurrencyDetail]
+  weak var tableView: UITableView?
+  
+  // MARK: Object lifecycle
+  
+  init(currencyDetails: [CurrencyDetail], tableView: UITableView) {
+    self.currencyDetails = currencyDetails
+    self.tableView = tableView
+    super.init()
+    
+    registerCells()
+
+    self.tableView?.dataSource = self
+    self.tableView?.reloadData()
+  }
+  
+  // MARK: Private methods
+  
+  private func registerCells() {
+    tableView?.register(cell: RateTableCell.self)
+  }
+  
+  // MARK: Public methods
+
+  public func update(currencyDetails: [CurrencyDetail]) {
+    self.currencyDetails = currencyDetails
+    self.tableView?.reloadData()
+  }
+  
+  // MARK: Table view data source
+  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return currencyDetails.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeue(cell: RateTableCell.self, indexPath: indexPath)
+    cell.setup(with: currencyDetails[indexPath.row])
+    return cell
+  }
+}

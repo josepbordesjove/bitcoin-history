@@ -13,7 +13,7 @@
 import UIKit
 
 @objc protocol BitcoinPriceDetailRoutingLogic {
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+  func routeToInfoDisclaimer()
 }
 
 protocol BitcoinPriceDetailDataPassing {
@@ -26,20 +26,19 @@ class BitcoinPriceDetailRouter: NSObject, BitcoinPriceDetailRoutingLogic, Bitcoi
   
   // MARK: Routing
   
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
-  //{
-  //  if let segue = segue {
-  //    let destinationVC = segue.destination as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //  } else {
-  //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-  //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-  //  }
-  //}
+  func routeToInfoDisclaimer() {
+    var message = NSLocalizedString("Something basic to inform about the price, disclaiming about the showed info", comment: "")
+    
+    if let todayDisclaimer = dataStore?.dayRate?.disclaimer {
+      message = todayDisclaimer
+    }
+    
+    let alertController = UIAlertController(title: NSLocalizedString("Disclaimer", comment: ""), message: message, preferredStyle: .alert)
+    let acceptAction = UIAlertAction(title: NSLocalizedString("Accept", comment: ""), style: .default, handler: nil)
+    
+    alertController.addAction(acceptAction)
+    viewController?.present(alertController, animated: true, completion: nil)
+  }
 
   // MARK: Navigation
   

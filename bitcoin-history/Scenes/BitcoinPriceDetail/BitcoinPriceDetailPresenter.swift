@@ -13,7 +13,7 @@
 import UIKit
 
 protocol BitcoinPriceDetailPresentationLogic {
-  func presentSomething(response: BitcoinPriceDetail.Something.Response)
+  func presentView(response: BitcoinPriceDetail.PrepareView.Response)
 }
 
 class BitcoinPriceDetailPresenter: BitcoinPriceDetailPresentationLogic {
@@ -21,8 +21,15 @@ class BitcoinPriceDetailPresenter: BitcoinPriceDetailPresentationLogic {
   
   // MARK: Do something
   
-  func presentSomething(response: BitcoinPriceDetail.Something.Response) {
-    let viewModel = BitcoinPriceDetail.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
+  func presentView(response: BitcoinPriceDetail.PrepareView.Response) {
+    switch response.result {
+    case .success(let details):
+      let sortedDetails = details.sorted { $0.code < $1.code }
+      let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .success(sortedDetails))
+      viewController?.displayView(viewModel: viewModel)
+    case .failure(let error):
+      let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .failure(error))
+      viewController?.displayView(viewModel: viewModel)
+    }
   }
 }

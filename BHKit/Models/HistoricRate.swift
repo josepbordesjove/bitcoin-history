@@ -9,6 +9,7 @@
 import Foundation
 
 public struct HistoricRate {
-  public let date: String
+  public let date: Date
   public let rate: Float
+  public let rateLocaleFormatted: String
 }

@@ -1,5 +1,5 @@
 //
-//  BitcoinHistoryStoreProtocol.swift
+//  StoreProtocol.swift
 //  BHKit
 //
 //  Created by Josep Bordes Jové on 27/11/2019.
@@ -8,7 +8,8 @@
 
 import Foundation
 
-public protocol BitcoinHistoryStoreProtocol {
+public protocol StoreProtocol {
   func getCurrentPrice(currencyCode: CurrencyCode?, completion: @escaping (Result<PriceDetail, Error>) -> Void)
   func getHistorical(start: Date?, end: Date?, currencyCode: CurrencyCode?, completion: @escaping (Result<HistoricalList, Error>) -> Void)
+  func getHistoricDetail(date: Date, completion: @escaping (Result<PriceDetail, Error>) -> Void)
 }

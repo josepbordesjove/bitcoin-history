@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BHUIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,12 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Configure the split view controller
     let bitcoinHistoryListViewController = BitcoinHistoryListViewController(nibName: nil, bundle: nil)
     let masterViewController = UINavigationController(rootViewController: bitcoinHistoryListViewController)
-    let bitcoinPriceDetailViewController = BitcoinPriceDetailViewController(nibName: nil, bundle: nil)
-    let detailViewController = UINavigationController(rootViewController: bitcoinPriceDetailViewController)
+    masterViewController.navigationBar.tintColor = Color.brand
 
     let rootViewController = UISplitViewController()
     rootViewController.delegate = self
-    rootViewController.viewControllers = [masterViewController, detailViewController]
+    rootViewController.viewControllers = [masterViewController]
     
     window = UIWindow()
     window?.rootViewController = rootViewController

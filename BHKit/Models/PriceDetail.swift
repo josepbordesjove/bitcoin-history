@@ -9,7 +9,8 @@
 import Foundation
 
 public struct PriceDetail {
-  let disclaimer: String
-  let date: String
-  let currencyDetails: [CurrencyDetail]
+  public let disclaimer: String
+  public let date: Date
+  public let currentCurrencyCode: CurrencyCode
+  public let currencyDetails: [CurrencyDetail]
 }

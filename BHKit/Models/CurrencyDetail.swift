@@ -8,7 +8,8 @@
 
 import Foundation
 
-struct CurrencyDetail {
-  let code: String
-  let rate: Float
+public struct CurrencyDetail {
+  public let code: String
+  public let rate: Float
+  public let rateLocaleFormatted: String
 }

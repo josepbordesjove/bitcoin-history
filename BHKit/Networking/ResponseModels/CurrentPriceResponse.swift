@@ -10,20 +10,8 @@ import Foundation
 
 struct CurrentPriceResponse: Codable {
   let disclaimer: String
-  let bpi: BPICurrentPriceResponse
+  let bpi: [String: DetailCurrentPriceResponse]
   let time: TimeCurrentPriceResponse
-}
-
-struct BPICurrentPriceResponse: Codable {
-  let usd: DetailCurrentPriceResponse
-  let gbp: DetailCurrentPriceResponse
-  let eur: DetailCurrentPriceResponse
-  
-  enum CodingKeys: String, CodingKey {
-    case usd = "USD"
-    case gbp = "GBP"
-    case eur = "EUR"
-  }
 }
 
 struct DetailCurrentPriceResponse: Codable {

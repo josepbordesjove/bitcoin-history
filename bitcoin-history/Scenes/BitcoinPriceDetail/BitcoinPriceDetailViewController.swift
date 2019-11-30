@@ -11,14 +11,40 @@
 //
 
 import UIKit
+import BHUIKit
 
 protocol BitcoinPriceDetailDisplayLogic: class {
-  func displaySomething(viewModel: BitcoinPriceDetail.Something.ViewModel)
+  func displayView(viewModel: BitcoinPriceDetail.PrepareView.ViewModel)
 }
 
-class BitcoinPriceDetailViewController: UITableViewController, BitcoinPriceDetailDisplayLogic {
+class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisplayLogic {
   var interactor: BitcoinPriceDetailBusinessLogic?
   var router: (NSObjectProtocol & BitcoinPriceDetailRoutingLogic & BitcoinPriceDetailDataPassing)?
+  var tableViewHandler: BitcoinPriceDetailTableHandler?
+  
+  // MARK: UI
+  
+  private lazy var tableView: UITableView = {
+    let tableView = UITableView()
+    tableView.translatesAutoresizingMaskIntoConstraints = false
+
+    return tableView
+  }()
+  
+  private lazy var placeholderView: PlaceholderView = {
+    var isDark: Bool = false
+
+    if #available(iOS 12.0, *) {
+        isDark = self.traitCollection.userInterfaceStyle == .dark
+    }
+
+    let view = PlaceholderView(state: .unknown, viewToHideWhenLoaded: tableView, isDarkMode: isDark)
+    view.shouldDisplayCallToAction(true)
+    view.setup(callToActionTitle: NSLocalizedString("Reload", comment: ""), callToAction: #selector(prepareView), target: self)
+    view.translatesAutoresizingMaskIntoConstraints = false
+    
+    return view
+  }()
 
   // MARK: Object lifecycle
   
@@ -53,28 +79,68 @@ class BitcoinPriceDetailViewController: UITableViewController, BitcoinPriceDetai
     super.viewDidLoad()
     
     setupView()
+    setupConstraints()
+    setupNavigationItems()
     
-    doSomething()
+    prepareView()
   }
   
   // MARK: Setup methods
   
+  private func setupNavigationItems() {
+    let infoImage = Icon.info
+    let infoButton = UIBarButtonItem(image: infoImage, style: .done, target: router, action: #selector(router?.routeToInfoDisclaimer))
+    navigationItem.rightBarButtonItem = infoButton
+  }
+  
   private func setupView() {
     title = NSLocalizedString("Price detail", comment: "This is the main title of the scene")
+    
     navigationItem.largeTitleDisplayMode = .always
     navigationController?.navigationBar.prefersLargeTitles = true
+    
+    tableView.tableFooterView = UIView()
+    view.backgroundColor = Color.background
+    
+    [tableView, placeholderView].forEach { view.addSubview($0) }
   }
   
-  // MARK: Do something
-  
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  func doSomething() {
-    let request = BitcoinPriceDetail.Something.Request()
-    interactor?.doSomething(request: request)
+  private func setupConstraints() {
+    NSLayoutConstraint.activate([
+      tableView.topAnchor.constraint(equalTo: view.topAnchor),
+      tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+      tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      
+      placeholderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      placeholderView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+      placeholderView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+      placeholderView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+    ])
   }
   
-  func displaySomething(viewModel: BitcoinPriceDetail.Something.ViewModel) {
-    //nameTextField.text = viewModel.name
+  // MARK: Prepare view
+  
+  @objc public func prepareView() {
+    let request = BitcoinPriceDetail.PrepareView.Request()
+    interactor?.prepareView(request: request)
+    
+    if router?.dataStore?.dayRate == nil {
+      placeholderView.set(state: .loading(image: UIImage(named: "bitcoin-growth")))
+    }
+  }
+  
+  func displayView(viewModel: BitcoinPriceDetail.PrepareView.ViewModel) {
+    switch viewModel.result {
+    case .success(let currencyDetails):
+      if tableViewHandler == nil {
+        tableViewHandler = BitcoinPriceDetailTableHandler(currencyDetails: currencyDetails, tableView: tableView)
+      } else {
+        tableViewHandler?.update(currencyDetails: currencyDetails)
+      }
+      placeholderView.set(state: currencyDetails.count > 0 ? .loaded : .empty)
+    case .failure(let error):
+      placeholderView.set(state: .error(error: error))
+    }
   }
 }

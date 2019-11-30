@@ -11,15 +11,27 @@
 //
 
 import UIKit
-
+import BHUIKit
 protocol BitcoinHistoryListDisplayLogic: class {
   func displayView(viewModel: BitcoinHistoryList.PrepareView.ViewModel)
+  func displayStartUpdatingTodayRate(viewModel: BitcoinHistoryList.StartUpdatingForPrice.ViewModel)
+  func displayStopUpdatingTodayRate(viewModel: BitcoinHistoryList.StopUpdatingForPrice.ViewModel)
+  func displayForceUpdateTodaysRate(viewModel: BitcoinHistoryList.ForceUpdateTodaysRate.ViewModel)
 }
 
 class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryListDisplayLogic {
   var interactor: BitcoinHistoryListBusinessLogic?
   var router: (NSObjectProtocol & BitcoinHistoryListRoutingLogic & BitcoinHistoryListDataPassing)?
   var tableViewHandler: BitcoinHistoryTableHandler?
+  
+  // MARK: UI
+  
+  private lazy var refresher: UIRefreshControl = {
+      let refreshControl = UIRefreshControl()
+      refreshControl.addTarget(self, action: #selector(forceUpdateTodaysRate), for: .valueChanged)
+      
+      return refreshControl
+  }()
 
   // MARK: Object lifecycle
   
@@ -31,6 +43,10 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     setup()
+  }
+  
+  deinit {
+    stopUpdatingTodayRate()
   }
   
   // MARK: Setup
@@ -54,6 +70,8 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
     super.viewDidLoad()
     
     setupView()
+    setupNavigationItems()
+
     prepareView()
   }
   
@@ -61,28 +79,135 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
   
   private func setupView() {
     title = NSLocalizedString("Price history", comment: "This is the main title of the scene")
+    
     navigationController?.navigationItem.largeTitleDisplayMode = .always
     navigationController?.navigationBar.prefersLargeTitles = true
+    
+    tableView.tableFooterView = UIView()
+    tableView.refreshControl = refresher
+  }
+  
+  private func setupNavigationItems() {
+    let infoImage = Icon.info
+    let infoButton = UIBarButtonItem(image: infoImage, style: .done, target: router, action: #selector(router?.routeToInfoDisclaimer))
+    navigationItem.rightBarButtonItem = infoButton
   }
   
   // MARK: Prepare view
   
-  func prepareView() {
+  @objc private func prepareView() {
     let request = BitcoinHistoryList.PrepareView.Request()
     interactor?.prepareView(request: request)
   }
   
   func displayView(viewModel: BitcoinHistoryList.PrepareView.ViewModel) {
-    switch viewModel.result {
-    case .success(let historicalList):
+    handleList(result: viewModel.result)
+    startUpdatingTodayRate()
+  }
+  
+  // MARK: Force to update today's rate
+  
+  @objc private func forceUpdateTodaysRate() {
+    let request = BitcoinHistoryList.ForceUpdateTodaysRate.Request()
+    interactor?.forceUpdateTodaysRate(request: request)
+  }
+  
+  func displayForceUpdateTodaysRate(viewModel: BitcoinHistoryList.ForceUpdateTodaysRate.ViewModel) {
+    handleList(result: viewModel.result)
+    
+    if refresher.isRefreshing {
+      refresher.endRefreshing()
+    }
+  }
+  
+  // MARK: Start Updating today's rate
+  
+  private func startUpdatingTodayRate() {
+    let request = BitcoinHistoryList.StartUpdatingForPrice.Request()
+    interactor?.startUpdatingTodayRate(request: request)
+  }
+  
+  func displayStartUpdatingTodayRate(viewModel: BitcoinHistoryList.StartUpdatingForPrice.ViewModel) {
+    handleList(result: viewModel.result)
+  }
+  
+  // MARK: Stop Updating today's rate
+  
+  private func stopUpdatingTodayRate() {
+    let request = BitcoinHistoryList.StopUpdatingForPrice.Request()
+    interactor?.stopUpdatingTodayRate(request: request)
+  }
+  
+  func displayStopUpdatingTodayRate(viewModel: BitcoinHistoryList.StopUpdatingForPrice.ViewModel) {
+    // Do something if required when the timer stops
+  }
+  
+  // MARK: Helpers
+  
+  private func presentErrorDialog(error: Error) {
+    let alertController = UIAlertController(
+      title: NSLocalizedString("Something bad happened", comment: ""),
+      message: error.localizedDescription,
+      preferredStyle: .alert
+    )
+    
+    let retryAction = UIAlertAction(title: NSLocalizedString("Retry", comment: ""), style: .default) { (_) in
+      self.prepareView()
+    }
+    
+    alertController.addAction(retryAction)
+    
+    present(alertController, animated: true, completion: nil)
+  }
+  
+  private func handleList(result: Result<[BitconHistorySection], Error>) {
+    let currentSelectedIndex = tableView.indexPathForSelectedRow
+    
+    switch result {
+    case .success(let sections):
+      selectFirstIndexPathIfNeeded(sections: sections)
+
       if tableViewHandler == nil {
-        tableViewHandler = BitcoinHistoryTableHandler(historicalList: historicalList, tableView: tableView)
+        tableViewHandler = BitcoinHistoryTableHandler(sections: sections, tableView: tableView)
+        tableViewHandler?.delegate = self
       } else {
-        tableViewHandler?.update(historicalList: historicalList)
+        tableViewHandler?.update(sections: sections)
       }
     case .failure(let error):
-      // TODO: Show alert for error
-      break
+      presentErrorDialog(error: error)
     }
+    
+    if let currentSelectedIndex = currentSelectedIndex {
+      tableView.selectRow(at: currentSelectedIndex, animated: false, scrollPosition: .none)
+      
+      // If selector row is at index 0 and row 0, it means that is the today rate, update it as it may have changed
+      if currentSelectedIndex.section == 0 && currentSelectedIndex.row == 0 {
+        router?.updateDataToBitcoinRateDetailIfPresented()
+      }
+    }
+  }
+  
+  private func selectFirstIndexPathIfNeeded(sections: [BitconHistorySection]) {
+    guard
+      let rootController = UIApplication.shared.keyWindow?.rootViewController as? UISplitViewController,
+    sections.containsTodaySection && tableView.indexPathForSelectedRow == nil && rootController.traitCollection.horizontalSizeClass == .regular else {
+      return
+    }
+
+    let firstIndexPath = IndexPath(row: 0, section: 0)
+    tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .none)
+    tableView.delegate?.tableView?(tableView, didSelectRowAt: firstIndexPath)
+
+    if let cell = tableView.cellForRow(at: firstIndexPath) {
+      cell.setSelected(true, animated: false)
+    }
+  }
+}
+
+// MARK: BitcoinHistoryTableHandlerDelegate
+
+extension BitcoinHistoryListViewController: BitcoinHistoryTableHandlerDelegate {
+  func didSelectRow(at indexPath: IndexPath) {
+    router?.routeToBitcoinRateDetail()
   }
 }

@@ -11,16 +11,19 @@
 //
 
 import UIKit
+import BHKit
 
 enum BitcoinPriceDetail {
   // MARK: Use cases
   
-  enum Something {
+  enum PrepareView {
     struct Request {
     }
     struct Response {
+      let result: Result<[CurrencyDetail],Error>
     }
     struct ViewModel {
+      let result: Result<[CurrencyDetail],Error>
     }
   }
 }

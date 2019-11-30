@@ -11,23 +11,49 @@
 //
 
 import UIKit
+import BHKit
 
 protocol BitcoinPriceDetailBusinessLogic {
-  func doSomething(request: BitcoinPriceDetail.Something.Request)
+  func prepareView(request: BitcoinPriceDetail.PrepareView.Request)
 }
 
 protocol BitcoinPriceDetailDataStore {
-  //var name: String { get set }
+  var dayRate: PriceDetail? { get set }
+  var date: Date? { get set }
 }
 
 class BitcoinPriceDetailInteractor: BitcoinPriceDetailBusinessLogic, BitcoinPriceDetailDataStore {
   var presenter: BitcoinPriceDetailPresentationLogic?
-  //var name: String = ""
   
-  // MARK: Do something
+  // MARK: Data store
   
-  func doSomething(request: BitcoinPriceDetail.Something.Request) {
-    let response = BitcoinPriceDetail.Something.Response()
-    presenter?.presentSomething(response: response)
+  var dayRate: PriceDetail?
+  var date: Date?
+  
+  // MARK: Workers
+  
+  var worker = Worker(store: Store())
+  
+  // MARK: Business logic
+  
+  func prepareView(request: BitcoinPriceDetail.PrepareView.Request) {
+    if let dayRate = dayRate {
+      let response = BitcoinPriceDetail.PrepareView.Response(result: .success(dayRate.currencyDetails))
+      presenter?.presentView(response: response)
+    } else if let date = date {
+      worker.getHistoricDetail(date: date) { (result) in
+        switch result {
+        case .success(let priceDetail):
+          self.dayRate = priceDetail
+          let response = BitcoinPriceDetail.PrepareView.Response(result: .success(priceDetail.currencyDetails))
+          self.presenter?.presentView(response: response)
+        case .failure(let error):
+          let response = BitcoinPriceDetail.PrepareView.Response(result: .failure(error))
+          self.presenter?.presentView(response: response)
+        }
+      }
+    } else {
+      // TODO: Handle this error
+    }
   }
 }

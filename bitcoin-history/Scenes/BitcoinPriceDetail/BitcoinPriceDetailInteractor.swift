@@ -18,8 +18,8 @@ protocol BitcoinPriceDetailBusinessLogic {
 }
 
 protocol BitcoinPriceDetailDataStore {
-  var dayRate: PriceDetail? { get set }
-  var date: Date? { get set }
+  var dayRate: RateList? { get set }
+  var historicRate: Rate? { get set }
 }
 
 class BitcoinPriceDetailInteractor: BitcoinPriceDetailBusinessLogic, BitcoinPriceDetailDataStore {
@@ -27,33 +27,38 @@ class BitcoinPriceDetailInteractor: BitcoinPriceDetailBusinessLogic, BitcoinPric
   
   // MARK: Data store
   
-  var dayRate: PriceDetail?
-  var date: Date?
+  var dayRate: RateList?
+  var historicRate: Rate?
   
   // MARK: Workers
   
-  var worker = Worker(store: Store())
+  var worker: Worker
+  
+  // MARK: Object lifecycle
+  
+  init(store: StoreProtocol = Store()) {
+    worker = Worker(store: store)
+  }
   
   // MARK: Business logic
   
   func prepareView(request: BitcoinPriceDetail.PrepareView.Request) {
     if let dayRate = dayRate {
-      let response = BitcoinPriceDetail.PrepareView.Response(result: .success(dayRate.currencyDetails))
+      let response = BitcoinPriceDetail.PrepareView.Response(result: .success(dayRate.list))
       presenter?.presentView(response: response)
-    } else if let date = date {
-      worker.getHistoricDetail(date: date) { (result) in
-        switch result {
-        case .success(let priceDetail):
-          self.dayRate = priceDetail
-          let response = BitcoinPriceDetail.PrepareView.Response(result: .success(priceDetail.currencyDetails))
-          self.presenter?.presentView(response: response)
-        case .failure(let error):
-          let response = BitcoinPriceDetail.PrepareView.Response(result: .failure(error))
-          self.presenter?.presentView(response: response)
-        }
+      return
+    }
+
+    worker.getHistoricDetail(rate: historicRate) { (result) in
+      switch result {
+      case .success(let priceDetail):
+        self.dayRate = priceDetail
+        let response = BitcoinPriceDetail.PrepareView.Response(result: .success(priceDetail.list))
+        self.presenter?.presentView(response: response)
+      case .failure(let error):
+        let response = BitcoinPriceDetail.PrepareView.Response(result: .failure(error))
+        self.presenter?.presentView(response: response)
       }
-    } else {
-      // TODO: Handle this error
     }
   }
 }

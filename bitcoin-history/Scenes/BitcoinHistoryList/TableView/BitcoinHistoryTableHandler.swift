@@ -37,6 +37,7 @@ class BitcoinHistoryTableHandler: NSObject, UITableViewDataSource, UITableViewDe
   private func registerCells() {
     tableView?.register(cell: HistoryTableCell.self)
     tableView?.register(cell: TodayTableCell.self)
+    tableView?.register(cell: PlaceholderCell.self)
   }
   
   // MARK: Public methods
@@ -64,7 +65,9 @@ class BitcoinHistoryTableHandler: NSObject, UITableViewDataSource, UITableViewDe
     case .today:
       return 1
     case .historic(let list):
-      return list.historicRates.count
+      return list.list.count
+    case .placeholder(let amount):
+      return amount
     }
   }
   
@@ -76,8 +79,12 @@ class BitcoinHistoryTableHandler: NSObject, UITableViewDataSource, UITableViewDe
       return cell
     case .historic(let list):
       let cell = tableView.dequeue(cell: HistoryTableCell.self, indexPath: indexPath)
-      let historicRate = list.historicRates[indexPath.row]
-      cell.setup(with: historicRate.date.toFormattedString(), rateFormatted: historicRate.rateLocaleFormatted, currencyCode: list.currencyCode)
+      let historicRate = list.list[indexPath.row]
+      cell.setup(with: historicRate.date.toFormattedString(), rateFormatted: historicRate.rateLocaleFormatted, currency: historicRate.currency)
+      return cell
+    case .placeholder:
+      let cell = tableView.dequeue(cell: PlaceholderCell.self, indexPath: indexPath)
+      cell.startActivity()
       return cell
     }
   }
@@ -85,10 +92,20 @@ class BitcoinHistoryTableHandler: NSObject, UITableViewDataSource, UITableViewDe
   // MARK: Table view delegate
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return UITableView.automaticDimension
+    switch sections[indexPath.section] {
+    case .placeholder:
+      return 80
+    default:
+      return UITableView.automaticDimension
+    }
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    delegate?.didSelectRow(at: indexPath)
+    switch sections[indexPath.section] {
+    case .placeholder:
+      break
+    default:
+      delegate?.didSelectRow(at: indexPath)
+    }
   }
 }

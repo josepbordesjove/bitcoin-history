@@ -56,10 +56,10 @@ class HistoryTableCell: UITableViewCell, CellIdentifier {
   
   // MARK: Setup
   
-  public func setup(with date: String, rateFormatted: String, currencyCode: String) {
+  public func setup(with date: String, rateFormatted: String, currency: Currency) {
     rateLabel.text = rateFormatted
     dayLabel.text = date
-    tagView.tagText = currencyCode
+    tagView.tagText = currency.rawValue
   }
   
   private func setupView() {

@@ -10,20 +10,30 @@ import Foundation
 import BHKit
 
 enum BitconHistorySection: Equatable {
-  case today(detail: PriceDetail)
-  case historic(list: HistoricalList)
+  case today(detail: RateList)
+  case historic(list: RateList)
+  case placeholder(amount: Int)
   
   var position: Int {
     switch self {
     case .today:
       return 0
-    case .historic:
+    case .placeholder:
       return 1
+    case .historic:
+      return 2
     }
   }
   
   static func == (lhs: BitconHistorySection, rhs: BitconHistorySection) -> Bool {
     switch lhs {
+    case .placeholder:
+      switch rhs {
+      case .placeholder:
+        return true
+      default:
+        return false
+      }
     case .today:
       switch rhs {
       case .today:
@@ -45,12 +55,12 @@ enum BitconHistorySection: Equatable {
 extension Array where Iterator.Element == BitconHistorySection {
   var containsTodaySection: Bool {
     var containsTodaySection = false
-
+    
     self.forEach { (section) in
       switch section {
       case .today:
         containsTodaySection = true
-      case .historic:
+      case .historic, .placeholder:
         if !containsTodaySection {
           containsTodaySection = false
         }
@@ -62,10 +72,10 @@ extension Array where Iterator.Element == BitconHistorySection {
   
   var containsHistoricList: Bool {
     var containsHistoricList = false
-
+    
     self.forEach { (section) in
       switch section {
-      case .today:
+      case .today, .placeholder:
         if !containsHistoricList {
           containsHistoricList = false
         }
@@ -77,8 +87,36 @@ extension Array where Iterator.Element == BitconHistorySection {
     return containsHistoricList
   }
   
-  var containsPlaceholders: Bool {
-    return false
+  var containsPlaceholder: Bool {
+    var containsPlaceholder = false
+    
+    self.forEach { (section) in
+      switch section {
+      case .placeholder:
+        if !containsPlaceholder {
+          containsPlaceholder = true
+        }
+      case .historic, .today:
+        containsPlaceholder = false
+      }
+    }
+    
+    return containsPlaceholder
+  }
+  
+  var indexOfPlaceholder: Int? {
+    var placeholderIndex: Int?
+    
+    for index in 0...(self.count-1) {
+      switch self[index] {
+      case .placeholder:
+        placeholderIndex = index
+      default:
+        break
+      }
+    }
+    
+    return placeholderIndex
   }
 }
 

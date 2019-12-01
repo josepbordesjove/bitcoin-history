@@ -15,32 +15,20 @@ class PlaceholderCell: UITableViewCell, CellIdentifier {
 
   // MARK: UI
   
-  private lazy var todayLabel: UILabel = {
-    let label = UILabel()
-    label.text = NSLocalizedString("Today", comment: "")
-    label.font = Font.extraInfoText
-    label.textColor = Color.brand
-    label.translatesAutoresizingMaskIntoConstraints = false
+  private lazy var ratePlaceholderView: UIView = {
+    let view = UIView()
+    view.backgroundColor = Color.infoText
+    view.translatesAutoresizingMaskIntoConstraints = false
 
-    return label
+    return view
   }()
   
-  private lazy var todayImageView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.image = Icon.star?.tint(with: Color.brand)
-    imageView.contentMode = .scaleAspectFit
-    imageView.translatesAutoresizingMaskIntoConstraints = false
+  private lazy var datePlaceholderView: UIView = {
+    let view = UIView()
+    view.backgroundColor = Color.extraInfoText
+    view.translatesAutoresizingMaskIntoConstraints = false
 
-    return imageView
-  }()
-  
-  private lazy var rateLabel: UILabel = {
-    let label = UILabel()
-    label.font = Font.rateInfoText
-    label.textColor = Color.infoText
-    label.translatesAutoresizingMaskIntoConstraints = false
-
-    return label
+    return view
   }()
   
   private lazy var tagView: TagView = {
@@ -51,15 +39,11 @@ class PlaceholderCell: UITableViewCell, CellIdentifier {
     return view
   }()
   
-  private lazy var updatedLabel: UILabel = {
-    let label = UILabel()
-    label.alpha = 0
-    label.font = Font.extraInfoText
-    label.textColor = Color.extraInfoText
-    label.text = NSLocalizedString("Updated right now", comment: "")
-    label.translatesAutoresizingMaskIntoConstraints = false
+  private lazy var activityIndicator: UIActivityIndicatorView = {
+    let activityIndicator = UIActivityIndicatorView(style: .white)
+    activityIndicator.translatesAutoresizingMaskIntoConstraints = false
 
-    return label
+    return activityIndicator
   }()
   
   // MARK: Object life cycle
@@ -77,37 +61,35 @@ class PlaceholderCell: UITableViewCell, CellIdentifier {
   
   // MARK: Setup methods
   
-  public func setup(with detail: PriceDetail) {
-    let localeRate = detail.currencyDetails.first { $0.code == detail.currentCurrencyCode.rawValue }
-    
-    self.rateLabel.text = localeRate?.rateLocaleFormatted
-    self.tagView.tagText = localeRate?.code
-  }
-  
   private func setupView() {
-    [todayLabel, todayImageView, rateLabel, tagView, updatedLabel].forEach { addSubview($0) }
-    accessoryType = .disclosureIndicator
+    [ratePlaceholderView, datePlaceholderView, tagView, activityIndicator].forEach { addSubview($0) }
+    selectionStyle = .none
   }
   
   private func setupConstraints() {
     NSLayoutConstraint.activate([
-      rateLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-      rateLabel.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -1),
-      rateLabel.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
+      ratePlaceholderView.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -4),
+      ratePlaceholderView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
+      ratePlaceholderView.heightAnchor.constraint(equalToConstant: 16),
+      ratePlaceholderView.widthAnchor.constraint(equalToConstant: 120),
       
-      todayImageView.topAnchor.constraint(equalTo: centerYAnchor, constant: 3),
-      todayImageView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
-      todayImageView.heightAnchor.constraint(equalToConstant: 20),
-      todayImageView.widthAnchor.constraint(equalToConstant: 20),
-      
-      todayLabel.centerYAnchor.constraint(equalTo: todayImageView.centerYAnchor),
-      todayLabel.leftAnchor.constraint(equalTo: todayImageView.rightAnchor, constant: 2),
+      datePlaceholderView.topAnchor.constraint(equalTo: centerYAnchor, constant: 4),
+      datePlaceholderView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
+      datePlaceholderView.heightAnchor.constraint(equalToConstant: 12),
+      datePlaceholderView.widthAnchor.constraint(equalToConstant: 60),
       
       tagView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-      tagView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor, constant: -30),
+      tagView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor),
+      tagView.widthAnchor.constraint(equalToConstant: 40),
       
-      updatedLabel.rightAnchor.constraint(equalTo: tagView.rightAnchor),
-      updatedLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+      activityIndicator.centerYAnchor.constraint(equalTo: tagView.centerYAnchor),
+      activityIndicator.centerXAnchor.constraint(equalTo: tagView.centerXAnchor)
     ])
+  }
+  
+  // MARK: Helpers
+  
+  public func startActivity() {
+    activityIndicator.startAnimating()
   }
 }

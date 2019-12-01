@@ -12,6 +12,7 @@
 
 import UIKit
 import BHUIKit
+import BHKit
 
 protocol BitcoinPriceDetailDisplayLogic: class {
   func displayView(viewModel: BitcoinPriceDetail.PrepareView.ViewModel)
@@ -27,17 +28,17 @@ class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisp
   private lazy var tableView: UITableView = {
     let tableView = UITableView()
     tableView.translatesAutoresizingMaskIntoConstraints = false
-
+    
     return tableView
   }()
   
-  private lazy var placeholderView: PlaceholderView = {
+  lazy var placeholderView: PlaceholderView = {
     var isDark: Bool = false
-
+    
     if #available(iOS 12.0, *) {
-        isDark = self.traitCollection.userInterfaceStyle == .dark
+      isDark = self.traitCollection.userInterfaceStyle == .dark
     }
-
+    
     let view = PlaceholderView(state: .unknown, viewToHideWhenLoaded: tableView, isDarkMode: isDark)
     view.shouldDisplayCallToAction(true)
     view.setup(callToActionTitle: NSLocalizedString("Reload", comment: ""), callToAction: #selector(prepareView), target: self)
@@ -45,8 +46,13 @@ class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisp
     
     return view
   }()
-
+  
   // MARK: Object lifecycle
+  
+  init(store: StoreProtocol) {
+    super.init(nibName: nil, bundle: nil)
+    setup(store: store)
+  }
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -60,9 +66,9 @@ class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisp
   
   // MARK: Setup
   
-  private func setup() {
+  private func setup(store: StoreProtocol = Store()) {
     let viewController = self
-    let interactor = BitcoinPriceDetailInteractor()
+    let interactor = BitcoinPriceDetailInteractor(store: store)
     let presenter = BitcoinPriceDetailPresenter()
     let router = BitcoinPriceDetailRouter()
     viewController.interactor = interactor
@@ -126,7 +132,7 @@ class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisp
     interactor?.prepareView(request: request)
     
     if router?.dataStore?.dayRate == nil {
-      placeholderView.set(state: .loading(image: UIImage(named: "bitcoin-growth")))
+      placeholderView.set(state: .loading(image: Asset.bitcoinGrowth))
     }
   }
   
@@ -138,7 +144,8 @@ class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisp
       } else {
         tableViewHandler?.update(currencyDetails: currencyDetails)
       }
-      placeholderView.set(state: currencyDetails.count > 0 ? .loaded : .empty)
+      
+      self.placeholderView.set(state: currencyDetails.count > 0 ? .loaded : .empty)
     case .failure(let error):
       placeholderView.set(state: .error(error: error))
     }

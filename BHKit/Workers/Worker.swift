@@ -15,15 +15,23 @@ public class Worker: StoreProtocol {
     self.store = store
   }
   
-  public func getCurrentPrice(currencyCode: CurrencyCode? = nil, completion: @escaping (Result<PriceDetail, Error>) -> Void) {
-    store.getCurrentPrice(currencyCode: currencyCode, completion: completion)
+  public func getCurrentPrice(currency: Currency? = nil, completion: @escaping (Result<RateList, Error>) -> Void) {
+    store.getCurrentPrice(currency: currency, completion: completion)
   }
   
-  public func getHistorical(start: Date?, end: Date?, currencyCode: CurrencyCode? = nil, completion: @escaping (Result<HistoricalList, Error>) -> Void) {
-    store.getHistorical(start: start, end: end, currencyCode: currencyCode, completion: completion)
+  public func getHistorical(start: Date?, end: Date?, currency: Currency? = nil, completion: @escaping (Result<RateList, Error>) -> Void) {
+    store.getHistorical(start: start, end: end, currency: currency, completion: completion)
   }
   
-  public func getHistoricDetail(date: Date, completion: @escaping (Result<PriceDetail, Error>) -> Void) {
-    store.getHistoricDetail(date: date, completion: completion)
+  public func getHistoricDetail(rate: Rate?, completion: @escaping (Result<RateList, Error>) -> Void) {
+    store.getHistoricDetail(rate: rate, completion: completion)
+  }
+  
+  public func startListeningForTodayUpdates(timeIntervalToRefresh: Double, completion: @escaping (Result<RateList, Error>) -> Void) {
+    store.startListeningForTodayUpdates(timeIntervalToRefresh: timeIntervalToRefresh, completion: completion)
+  }
+  
+  public func stopListeningForTodayUpdates() {
+    store.stopListeningForTodayUpdates()
   }
 }

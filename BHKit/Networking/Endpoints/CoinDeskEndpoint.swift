@@ -9,8 +9,8 @@
 import Foundation
 
 enum CoinDeskEndpoint: Endpoint {
-  case currentPrice(currencyCode: CurrencyCode?)
-  case historical(start: Date?, end: Date?, currencyCode: CurrencyCode)
+  case currentPrice
+  case historical(start: Date?, end: Date?, currencyCode: Currency)
   
   var scheme: String {
     return "https"
@@ -30,12 +30,8 @@ enum CoinDeskEndpoint: Endpoint {
   
   var path: String {
     switch self {
-    case .currentPrice(let currencyCode):
-      if let currencyCode = currencyCode {
-        return "currentprice/\(currencyCode.rawValue).json"
-      } else {
-        return "currentprice.json"
-      }
+    case .currentPrice:
+      return "currentprice.json"
     case .historical:
       return "historical/close.json"
     }
@@ -45,16 +41,16 @@ enum CoinDeskEndpoint: Endpoint {
     switch self {
     case .currentPrice:
       return .get(nil)
-    case .historical(let start, let end, let currencyCode):
+    case .historical(let start, let end, let currency):
       if let startDate = start, let endDate = end {
         return .get([
           "start": startDate.toFormattedString(),
           "end": endDate.toFormattedString(),
-          "currency": currencyCode.rawValue
+          "currency": currency.rawValue
         ])
       } else {
         return .get([
-          "currency": currencyCode.rawValue
+          "currency": currency.rawValue
         ])
       }
     }

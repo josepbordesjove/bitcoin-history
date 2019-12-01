@@ -47,9 +47,9 @@ class RateTableCell: UITableViewCell, CellIdentifier {
   
   // MARK: Setup
   
-  public func setup(with currencyDetail: CurrencyDetail) {
+  public func setup(with currencyDetail: Rate) {
     rateLabel.text = currencyDetail.rateLocaleFormatted
-    tagView.tagText = currencyDetail.code
+    tagView.tagText = currencyDetail.currency.rawValue
   }
   
   private func setupView() {

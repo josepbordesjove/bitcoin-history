@@ -56,7 +56,7 @@ public class TagView: UIView {
   
   private func setupConstraints() {
     NSLayoutConstraint.activate([
-      heightAnchor.constraint(equalToConstant: 20),
+      heightAnchor.constraint(equalToConstant: 24),
 
       tagLabel.topAnchor.constraint(equalTo: topAnchor),
       tagLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),

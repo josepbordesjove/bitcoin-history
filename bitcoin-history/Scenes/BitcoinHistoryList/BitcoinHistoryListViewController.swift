@@ -12,10 +12,11 @@
 
 import UIKit
 import BHUIKit
+import BHKit
+
 protocol BitcoinHistoryListDisplayLogic: class {
   func displayView(viewModel: BitcoinHistoryList.PrepareView.ViewModel)
   func displayStartUpdatingTodayRate(viewModel: BitcoinHistoryList.StartUpdatingForPrice.ViewModel)
-  func displayStopUpdatingTodayRate(viewModel: BitcoinHistoryList.StopUpdatingForPrice.ViewModel)
   func displayForceUpdateTodaysRate(viewModel: BitcoinHistoryList.ForceUpdateTodaysRate.ViewModel)
 }
 
@@ -27,13 +28,18 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
   // MARK: UI
   
   private lazy var refresher: UIRefreshControl = {
-      let refreshControl = UIRefreshControl()
-      refreshControl.addTarget(self, action: #selector(forceUpdateTodaysRate), for: .valueChanged)
-      
-      return refreshControl
+    let refreshControl = UIRefreshControl()
+    refreshControl.addTarget(self, action: #selector(forceUpdateTodaysRate), for: .valueChanged)
+    
+    return refreshControl
   }()
-
+  
   // MARK: Object lifecycle
+  
+  init(store: StoreProtocol) {
+    super.init(nibName: nil, bundle: nil)
+    setup(store: store)
+  }
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -51,9 +57,9 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
   
   // MARK: Setup
   
-  private func setup() {
+  private func setup(store: StoreProtocol = Store()) {
     let viewController = self
-    let interactor = BitcoinHistoryListInteractor()
+    let interactor = BitcoinHistoryListInteractor(store: store)
     let presenter = BitcoinHistoryListPresenter()
     let router = BitcoinHistoryListRouter()
     viewController.interactor = interactor
@@ -71,7 +77,7 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
     
     setupView()
     setupNavigationItems()
-
+    
     prepareView()
   }
   
@@ -85,6 +91,8 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
     
     tableView.tableFooterView = UIView()
     tableView.refreshControl = refresher
+    
+    view.backgroundColor = Color.background
   }
   
   private func setupNavigationItems() {
@@ -138,13 +146,13 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
     interactor?.stopUpdatingTodayRate(request: request)
   }
   
-  func displayStopUpdatingTodayRate(viewModel: BitcoinHistoryList.StopUpdatingForPrice.ViewModel) {
-    // Do something if required when the timer stops
-  }
-  
   // MARK: Helpers
   
   private func presentErrorDialog(error: Error) {
+    guard !(presentedViewController is UIAlertController) else {
+      return
+    }
+    
     let alertController = UIAlertController(
       title: NSLocalizedString("Something bad happened", comment: ""),
       message: error.localizedDescription,
@@ -155,18 +163,21 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
       self.prepareView()
     }
     
-    alertController.addAction(retryAction)
+    let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in
+      // Handle cancel action if needed
+    }
+    
+    [retryAction, cancelAction].forEach { alertController.addAction($0) }
     
     present(alertController, animated: true, completion: nil)
   }
   
   private func handleList(result: Result<[BitconHistorySection], Error>) {
     let currentSelectedIndex = tableView.indexPathForSelectedRow
-    
+    selectFirstIndexPathIfNeeded()
+
     switch result {
     case .success(let sections):
-      selectFirstIndexPathIfNeeded(sections: sections)
-
       if tableViewHandler == nil {
         tableViewHandler = BitcoinHistoryTableHandler(sections: sections, tableView: tableView)
         tableViewHandler?.delegate = self
@@ -187,17 +198,19 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
     }
   }
   
-  private func selectFirstIndexPathIfNeeded(sections: [BitconHistorySection]) {
+  private func selectFirstIndexPathIfNeeded() {
     guard
       let rootController = UIApplication.shared.keyWindow?.rootViewController as? UISplitViewController,
-    sections.containsTodaySection && tableView.indexPathForSelectedRow == nil && rootController.traitCollection.horizontalSizeClass == .regular else {
-      return
+      let sections = tableViewHandler?.sections,
+      sections.containsTodaySection && tableView.indexPathForSelectedRow == nil && rootController.traitCollection.horizontalSizeClass == .regular
+    else {
+        return
     }
-
+    
     let firstIndexPath = IndexPath(row: 0, section: 0)
     tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .none)
     tableView.delegate?.tableView?(tableView, didSelectRowAt: firstIndexPath)
-
+    
     if let cell = tableView.cellForRow(at: firstIndexPath) {
       cell.setSelected(true, animated: false)
     }

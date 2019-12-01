@@ -20,10 +20,10 @@ enum BitcoinPriceDetail {
     struct Request {
     }
     struct Response {
-      let result: Result<[CurrencyDetail],Error>
+      let result: Result<[Rate],Error>
     }
     struct ViewModel {
-      let result: Result<[CurrencyDetail],Error>
+      let result: Result<[Rate],Error>
     }
   }
 }

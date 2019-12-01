@@ -19,12 +19,10 @@ protocol BitcoinPriceDetailPresentationLogic {
 class BitcoinPriceDetailPresenter: BitcoinPriceDetailPresentationLogic {
   weak var viewController: BitcoinPriceDetailDisplayLogic?
   
-  // MARK: Do something
-  
   func presentView(response: BitcoinPriceDetail.PrepareView.Response) {
     switch response.result {
     case .success(let details):
-      let sortedDetails = details.sorted { $0.code < $1.code }
+      let sortedDetails = details.sorted { $0.currency.rawValue < $1.currency.rawValue }
       let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .success(sortedDetails))
       viewController?.displayView(viewModel: viewModel)
     case .failure(let error):

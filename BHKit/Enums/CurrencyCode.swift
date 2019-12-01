@@ -8,10 +8,10 @@
 
 import Foundation
 
-public enum CurrencyCode: String {
+public enum Currency: String {
   case eur = "EUR"
   case gbp = "GBP"
   case usd = "USD"
   
-  static let all: [CurrencyCode] = [.eur, .gbp, .usd]
+  static let all: [Currency] = [.eur, .gbp, .usd]
 }

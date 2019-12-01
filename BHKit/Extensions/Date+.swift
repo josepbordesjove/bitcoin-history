@@ -13,6 +13,7 @@ public extension Date {
     case short
     case long
     case dateHour
+    case hour
     
     var stringFormat: String {
       switch self {
@@ -22,6 +23,8 @@ public extension Date {
         return "MMM d, yyyy HH:mm:ss Z"
       case .dateHour:
         return "MMM d, yyyy HH:mm"
+      case .hour:
+        return "HH:mm"
       }
     }
   }
@@ -29,6 +32,11 @@ public extension Date {
   // TODO: Explain why this has been created as static
   private static let currentCalendar = Calendar.current
   private static let dateFormatter = DateFormatter()
+  
+  init(substractingDays: Int) {
+    let secondsPerDay: Double = 24*60*60
+    self = Date(timeIntervalSinceNow: -Double(substractingDays)*secondsPerDay)
+  }
   
   func toFormattedString(format: DateFormat = DateFormat.short) -> String {
     guard let currentTimeZoneAbbreviation = TimeZone.current.abbreviation() else {

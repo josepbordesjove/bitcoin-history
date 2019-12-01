@@ -82,8 +82,8 @@ class BitcoinHistoryListRouter: NSObject, BitcoinHistoryListRoutingLogic, Bitcoi
     if let selectedIndexPath = viewController?.tableView.indexPathForSelectedRow {
       if selectedIndexPath.section == 0 {
         destination.dayRate = source.todayRate
-      } else if let historicRate = source.historicalList?.historicRates[selectedIndexPath.row] {
-        destination.date = historicRate.date
+      } else if let historicRate = source.historicalList?.list[selectedIndexPath.row] {
+        destination.historicRate = historicRate
       }
     } else {
       assertionFailure("If this methos has been called it means that a cell has been selected")

@@ -23,7 +23,6 @@ protocol TodayDisplayLogic: class {
 
 class TodayViewController: UIViewController, NCWidgetProviding, TodayDisplayLogic {
   var interactor: TodayBusinessLogic?
-  var router: (NSObjectProtocol & TodayRoutingLogic & TodayDataPassing)?
   
   // MARK: UI
   
@@ -102,13 +101,9 @@ class TodayViewController: UIViewController, NCWidgetProviding, TodayDisplayLogi
     let viewController = self
     let interactor = TodayInteractor()
     let presenter = TodayPresenter()
-    let router = TodayRouter()
     viewController.interactor = interactor
-    viewController.router = router
     interactor.presenter = presenter
     presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
   }
   
   // MARK: View lifecycle
@@ -200,20 +195,20 @@ class TodayViewController: UIViewController, NCWidgetProviding, TodayDisplayLogi
     completionHandler(NCUpdateResult.newData)
   }
   
-  func handleResult(result: Result<PriceDetail, Error>) {
+  func handleResult(result: Result<RateList, Error>) {
     switch result {
     case .success(let priceDetail):
       activityView.stopAnimating()
       activityView.isHidden = true
       loadingLabel.isHidden = true
-      lastUpdatedDateLabel.text = priceDetail.date.toFormattedString(format: .dateHour)
+      lastUpdatedDateLabel.text = priceDetail.updatedDate.toFormattedString(format: .long)
       lastUpdatedDateLabel.isHidden = false
       
-      let localeRate = priceDetail.currencyDetails.first { $0.code == priceDetail.currentCurrencyCode.rawValue }
+      let localeRate = priceDetail.list.first { $0.currency == priceDetail.currentCurrency }
       bitcoinRateLabel.isHidden = false
       bitcoinRateLabel.text = localeRate?.rateLocaleFormatted
       bitcoinInfoPriceLabel.isHidden = false
-      tagView.tagText = localeRate?.code
+      tagView.tagText = localeRate?.currency.rawValue
       tagView.isHidden = false
     case .failure:
       // TODO: Handle the error

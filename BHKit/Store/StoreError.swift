@@ -10,20 +10,30 @@ import Foundation
 
 enum StoreError: LocalizedError {
   case networkError
-  case unexpectedResponse
+  case unexpectedResponseTodayRate
+  case unexpectedResponseHistoricListRate
+  case unexpectedResponseHistoricDetail
 }
 
 extension StoreError {
-    public var errorDescription: String? {
-        return localizedDescription
+  public var errorDescription: String? {
+    return description
+  }
+  
+  public var localizedDescription: String? {
+    return description
+  }
+  
+  var description: String? {
+    switch self {
+    case .networkError:
+      return NSLocalizedString("There has been an unexpected error trying to fetch the data, try it again", comment: "")
+    case .unexpectedResponseTodayRate:
+      return NSLocalizedString("There has been an error trying to fetch today's rate", comment: "")
+    case .unexpectedResponseHistoricListRate:
+      return NSLocalizedString("There has been an error trying to fetch historic list rates", comment: "")
+    case .unexpectedResponseHistoricDetail:
+      return NSLocalizedString("There has been an error trying to fetch the historic detail", comment: "")
     }
-
-    var description: String? {
-        switch self {
-        case .networkError:
-          return NSLocalizedString("There has been an unexpected error trying to fetch the data, try it again", comment: "")
-        case .unexpectedResponse:
-          return NSLocalizedString("The response from the server was unexpected, please, try it again", comment: "")
-        }
-    }
+  }
 }

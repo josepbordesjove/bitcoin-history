@@ -10,12 +10,12 @@ import UIKit
 import BHKit
 
 class BitcoinPriceDetailTableHandler: NSObject, UITableViewDataSource {
-  private(set) var currencyDetails: [CurrencyDetail]
+  private(set) var currencyDetails: [Rate]
   weak var tableView: UITableView?
   
   // MARK: Object lifecycle
   
-  init(currencyDetails: [CurrencyDetail], tableView: UITableView) {
+  init(currencyDetails: [Rate], tableView: UITableView) {
     self.currencyDetails = currencyDetails
     self.tableView = tableView
     super.init()
@@ -34,7 +34,7 @@ class BitcoinPriceDetailTableHandler: NSObject, UITableViewDataSource {
   
   // MARK: Public methods
 
-  public func update(currencyDetails: [CurrencyDetail]) {
+  public func update(currencyDetails: [Rate]) {
     self.currencyDetails = currencyDetails
     self.tableView?.reloadData()
   }

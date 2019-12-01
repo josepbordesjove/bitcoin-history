@@ -15,15 +15,26 @@ public class MemStore: StoreProtocol {
   
   // MARK: Business logic
 
-  public func getCurrentPrice(currencyCode: CurrencyCode?, completion: @escaping (Result<PriceDetail, Error>) -> Void) {
-    // Handle mem completion
+  public func getCurrentPrice(currency: Currency?, completion: @escaping (Result<RateList, Error>) -> Void) {
+    completion(.success(RateList.fake))
   }
   
-  public func getHistorical(start: Date?, end: Date?, currencyCode: CurrencyCode?, completion: @escaping (Result<HistoricalList, Error>) -> Void) {
-    // Handle mem completion
+  public func getHistorical(start: Date?, end: Date?, currency: Currency?, completion: @escaping (Result<RateList, Error>) -> Void) {
+    completion(.success(RateList.fake))
   }
   
-  public func getHistoricDetail(date: Date, completion: @escaping (Result<PriceDetail, Error>) -> Void) {
-    // Handle mem completion
+  public func getHistoricDetail(rate: Rate?, completion: @escaping (Result<RateList, Error>) -> Void) {
+    if rate == nil {
+      completion(.failure(StoreError.unexpectedResponseHistoricDetail))
+    } else {
+      completion(.success(RateList.fake))
+    }
+  }
+  
+  public func startListeningForTodayUpdates(timeIntervalToRefresh: Double, completion: @escaping (Result<RateList, Error>) -> Void) {
+    completion(.success(RateList.fake))
+  }
+  
+  public func stopListeningForTodayUpdates() {
   }
 }

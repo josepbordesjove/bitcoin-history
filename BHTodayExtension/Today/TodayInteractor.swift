@@ -19,7 +19,7 @@ protocol TodayBusinessLogic {
 }
 
 protocol TodayDataStore {
-  var detail: PriceDetail? { get set }
+  var detail: RateList? { get set }
 }
 
 class TodayInteractor: TodayBusinessLogic, TodayDataStore {
@@ -28,7 +28,7 @@ class TodayInteractor: TodayBusinessLogic, TodayDataStore {
   
   // MARK: Data store
   
-  var detail: PriceDetail?
+  var detail: RateList?
   
   // MARK: Workers
   

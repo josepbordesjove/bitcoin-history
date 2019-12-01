@@ -15,7 +15,6 @@ import UIKit
 protocol BitcoinHistoryListPresentationLogic {
   func presentView(response: BitcoinHistoryList.PrepareView.Response)
   func presentStartUpdatingTodayRate(response: BitcoinHistoryList.StartUpdatingForPrice.Response)
-  func presentStopUpdatingTodayRate(response: BitcoinHistoryList.StopUpdatingForPrice.Response)
   func presentForceUpdateTodaysRate(response: BitcoinHistoryList.ForceUpdateTodaysRate.Response)
 }
 
@@ -44,11 +43,6 @@ class BitcoinHistoryListPresenter: BitcoinHistoryListPresentationLogic {
       let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .failure(error))
       viewController?.displayView(viewModel: viewModel)
     }
-  }
-
-  func presentStopUpdatingTodayRate(response: BitcoinHistoryList.StopUpdatingForPrice.Response) {
-    let viewModel = BitcoinHistoryList.StopUpdatingForPrice.ViewModel()
-    viewController?.displayStopUpdatingTodayRate(viewModel: viewModel)
   }
   
   func presentForceUpdateTodaysRate(response: BitcoinHistoryList.ForceUpdateTodaysRate.Response) {

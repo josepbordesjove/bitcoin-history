@@ -1,13 +1,13 @@
 //
 //  Asset.swift
-//  BHUIKit
+//  bitcoin-history
 //
-//  Created by Josep Bordes Jové on 29/11/2019.
+//  Created by Josep Bordes Jové on 01/12/2019.
 //  Copyright © 2019 Josep Bordes Jové. All rights reserved.
 //
 
 import UIKit
 
-public struct Asset {
+struct Asset {
   static let bitcoinGrowth = UIImage(named: "bitcoin-growth")
 }

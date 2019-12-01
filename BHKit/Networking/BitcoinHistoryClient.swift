@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BitcoinHistoryClient: APIClient {
+class BitcoinHistoryClient: APIClient, BitcoinHistoryAPI {
   var logLevel: APIClientLogLevel
   
   // MARK: Object lifecycle
@@ -23,13 +23,13 @@ class BitcoinHistoryClient: APIClient {
   
   // MARK: Public endpoints
   
-  func getCurrentPrice(currencyCode: CurrencyCode?, completion: @escaping (Result<CurrentPriceResponse, Error>) -> Void) {
-    let endpoint: CoinDeskEndpoint = .currentPrice(currencyCode: currencyCode)
+  func getCurrentPrice(completion: @escaping (Result<CurrentPriceResponse, Error>) -> Void) {
+    let endpoint: CoinDeskEndpoint = .currentPrice
     self.load(endpoint: endpoint, responseType: CurrentPriceResponse.self, completion: completion)
   }
   
-  func getHistorical(start: Date?, end: Date?, currencyCode: CurrencyCode, completion: @escaping (Result<HistoricalResponse, Error>) -> Void) {
-    let endpoint: CoinDeskEndpoint = .historical(start: start, end: end, currencyCode: currencyCode)
+  func getHistorical(start: Date?, end: Date?, currency: Currency, completion: @escaping (Result<HistoricalResponse, Error>) -> Void) {
+    let endpoint: CoinDeskEndpoint = .historical(start: start, end: end, currencyCode: currency)
     self.load(endpoint: endpoint, responseType: HistoricalResponse.self, completion: completion)
   }
   

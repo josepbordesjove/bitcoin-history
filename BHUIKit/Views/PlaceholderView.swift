@@ -8,19 +8,59 @@
 
 import UIKit
 
-public enum EmptyPlaceholderState {
+public enum EmptyPlaceholderState: Equatable {
   case unknown
   case error(error: Error)
   case empty
   case loading(image: UIImage?)
   case loaded
+  
+  public static func == (lhs: EmptyPlaceholderState, rhs: EmptyPlaceholderState) -> Bool {
+    switch lhs {
+    case .error:
+      switch rhs {
+      case .error:
+        return true
+      default:
+        return false
+      }
+    case .empty:
+      switch rhs {
+      case .empty:
+        return true
+      default:
+        return false
+      }
+    case .loaded:
+      switch rhs {
+      case .loaded:
+        return true
+      default:
+        return false
+      }
+    case .loading:
+      switch rhs {
+      case .loading:
+        return true
+      default:
+        return false
+      }
+    case .unknown:
+      switch rhs {
+      case .unknown:
+        return true
+      default:
+        return false
+      }
+    }
+  }
 }
 
 public class PlaceholderView: UIView {
   
   // MARK: State
   
-  private(set) var state: EmptyPlaceholderState {
+  public var state: EmptyPlaceholderState {
     didSet {
       setupForState()
     }
@@ -42,7 +82,7 @@ public class PlaceholderView: UIView {
   
   // MARK: UI
   
-  private lazy var titleLabel: UILabel = {
+  public lazy var titleLabel: UILabel = {
     let label = UILabel()
     label.font = Font.bigInfoText
     label.textColor = Color.brand
@@ -54,7 +94,7 @@ public class PlaceholderView: UIView {
     return label
   }()
   
-  private lazy var descriptionLabel: UILabel = {
+  public lazy var descriptionLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 0
     label.lineBreakMode = .byWordWrapping
@@ -66,7 +106,7 @@ public class PlaceholderView: UIView {
     return label
   }()
   
-  private lazy var placeholderImageView: UIImageView = {
+  private(set) lazy var placeholderImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFit
     imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +114,7 @@ public class PlaceholderView: UIView {
     return imageView
   }()
   
-  private lazy var callToActionButton: UIButton = {
+  private(set) lazy var callToActionButton: UIButton = {
     let button = UIButton()
     button.backgroundColor = Color.brand
     button.setTitleColor(.white, for: .normal)
@@ -85,7 +125,7 @@ public class PlaceholderView: UIView {
     return button
   }()
   
-  private lazy var activityIndicator: UIActivityIndicatorView = {
+  private(set) lazy var activityIndicator: UIActivityIndicatorView = {
     let indicator = UIActivityIndicatorView(style: isDarkMode ? .white : .gray)
     indicator.startAnimating()
     indicator.translatesAutoresizingMaskIntoConstraints = false

@@ -9,12 +9,13 @@
 import UIKit
 
 public struct Icon {
+  private static let bundle = Bundle(for: TagView.self)
+  
   public static var info: UIImage? {
     if #available(iOS 13.0, *) {
       return UIImage(systemName: "info.circle")
     } else {
-      // TODO: Return a fallback image for previous 13 OS
-      return nil
+      return UIImage(named: "info", in: Icon.bundle, compatibleWith: nil)
     }
   }
   
@@ -22,17 +23,7 @@ public struct Icon {
     if #available(iOS 13.0, *) {
       return UIImage(systemName: "star.fill")
     } else {
-      // TODO: Return a fallback image for previous 13 OS
-      return nil
-    }
-  }
-  
-  public static var bitcoin: UIImage? {
-    if #available(iOS 13.0, *) {
-      return UIImage(systemName: "bitcoinsign.circle")
-    } else {
-      // TODO: Return a fallback image for previous 13 OS
-      return nil
+      return UIImage(named: "star", in: Icon.bundle, compatibleWith: nil)
     }
   }
 }

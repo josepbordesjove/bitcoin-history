@@ -17,7 +17,6 @@ class TodayTableCell: UITableViewCell, CellIdentifier {
   
   private lazy var todayLabel: UILabel = {
     let label = UILabel()
-    label.text = NSLocalizedString("Today", comment: "")
     label.font = Font.extraInfoText
     label.textColor = Color.brand
     label.translatesAutoresizingMaskIntoConstraints = false
@@ -77,11 +76,12 @@ class TodayTableCell: UITableViewCell, CellIdentifier {
   
   // MARK: Setup methods
   
-  public func setup(with detail: PriceDetail) {
-    let localeRate = detail.currencyDetails.first { $0.code == detail.currentCurrencyCode.rawValue }
+  public func setup(with detail: RateList) {
+    let localeRate = detail.list.first { $0.currency == detail.currentCurrency }
     
     self.rateLabel.text = localeRate?.rateLocaleFormatted
-    self.tagView.tagText = localeRate?.code
+    self.tagView.tagText = localeRate?.currency.rawValue
+    self.todayLabel.text = NSLocalizedString("Today", comment: "") + " (\(detail.updatedDate.toFormattedString(format: .hour)))"
   }
   
   private func setupView() {

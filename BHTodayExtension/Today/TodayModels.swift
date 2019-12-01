@@ -20,10 +20,10 @@ enum Today {
     struct Request {
     }
     struct Response {
-      let result: Result<PriceDetail, Error>
+      let result: Result<RateList, Error>
     }
     struct ViewModel {
-      let result: Result<PriceDetail, Error>
+      let result: Result<RateList, Error>
     }
   }
   
@@ -31,10 +31,10 @@ enum Today {
     struct Request {
     }
     struct Response {
-      let result: Result<PriceDetail, Error>
+      let result: Result<RateList, Error>
     }
     struct ViewModel {
-      let result: Result<PriceDetail, Error>
+      let result: Result<RateList, Error>
     }
   }
   

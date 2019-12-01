@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
     guard NSClassFromString("XCTest") == nil else {
-        self.window?.rootViewController = UIViewController()
+        self.window?.rootViewController = UISplitViewController()
         return true
     }
     
@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     masterViewController.navigationBar.tintColor = Color.brand
 
     let rootViewController = UISplitViewController()
+    rootViewController.view.backgroundColor = Color.background
+    rootViewController.preferredDisplayMode = .allVisible
     rootViewController.delegate = self
     rootViewController.viewControllers = [masterViewController]
     

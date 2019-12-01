@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol APIClientType {
     func loadDataTask(endpoint: Endpoint, completion: @escaping (Data?, URLResponse?, Error?) -> Void)
 }

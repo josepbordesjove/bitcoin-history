@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIClientLogLevel {
+public enum APIClientLogLevel {
     case none
     case minimum
     case debug

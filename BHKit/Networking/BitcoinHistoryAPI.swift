@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol BitcoinHistoryAPI: class {
+public protocol BitcoinHistoryAPI: class {
   func getCurrentPrice(completion: @escaping (Result<CurrentPriceResponse, Error>) -> Void)
   func getHistorical(start: Date?, end: Date?, currency: Currency, completion: @escaping (Result<HistoricalResponse, Error>) -> Void)
 }

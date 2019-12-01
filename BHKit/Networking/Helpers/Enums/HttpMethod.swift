@@ -7,15 +7,15 @@
 
 import Foundation
 
-typealias Parameters = [String: Any]
-typealias Body = Any
+public typealias Parameters = [String: Any]
+public typealias Body = Any
 
-enum HttpMethod<Body, Parameters> {
+public enum HttpMethod<Body, Parameters> {
     case get(Parameters?)
     case post(Body?)
 }
 
-extension HttpMethod {
+public extension HttpMethod {
     var value: String {
         switch self {
         case .get: return "GET"

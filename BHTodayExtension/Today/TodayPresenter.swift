@@ -15,7 +15,6 @@ import UIKit
 protocol TodayPresentationLogic {
   func prepareView(response: Today.PrepareView.Response)
   func presentStartListening(response: Today.StartListening.Response)
-  func presentStopListening(response: Today.StopListening.Response)
 }
 
 class TodayPresenter: TodayPresentationLogic {
@@ -29,10 +28,5 @@ class TodayPresenter: TodayPresentationLogic {
   func presentStartListening(response: Today.StartListening.Response) {
     let viewModel = Today.StartListening.ViewModel(result: response.result)
     viewController?.displayStartListening(viewModel: viewModel)
-  }
-  
-  func presentStopListening(response: Today.StopListening.Response) {
-    let viewModel = Today.StopListening.ViewModel()
-    viewController?.displayStopListening(viewModel: viewModel)
   }
 }

@@ -20,10 +20,10 @@ public class Store: StoreProtocol {
   // MARK: Object lifecycle
   
   public init() {
-    bitcoinHistoryClient = BitcoinHistoryClient()
+    bitcoinHistoryClient = BitcoinHistoryClient(loader: Loader())
   }
   
-  init(client: BitcoinHistoryAPI) {
+  public init(client: BitcoinHistoryAPI) {
     bitcoinHistoryClient = client
   }
   
@@ -73,7 +73,6 @@ public class Store: StoreProtocol {
 
     var currencyDetails: [Rate] = []
     var getHistoricDetailError: Error?
-    var disclaimer: String?
     var updatedDate: Date?
     
     Currency.all.forEach { (currency) in
@@ -88,10 +87,6 @@ public class Store: StoreProtocol {
           
           switch result {
           case .success(let response):
-            if disclaimer == nil {
-              disclaimer = response.disclaimer
-            }
-            
             if updatedDate == nil {
               updatedDate = Date.from(date: response.time.updated, format: .long)
             }
@@ -108,10 +103,15 @@ public class Store: StoreProtocol {
       }
     }
     
+    let disclaimer = NSLocalizedString(
+      "Currency detail fetched from CoinDesk. For more info visit https://www.coindesk.com",
+      comment: ""
+    )
+    
     historicDetailsDispatchGroup.notify(queue: DispatchQueue.main) {
       if getHistoricDetailError != nil {
         completion(.failure(StoreError.unexpectedResponseHistoricDetail))
-      } else if let disclaimer = disclaimer, let updatedDate = updatedDate {
+      } else if let updatedDate = updatedDate {
         let priceDetail = RateList(
           disclaimer: disclaimer,
           updatedDate: updatedDate,

@@ -13,13 +13,13 @@ public struct Rate {
   public let rate: Float
   public let currency: Currency
   
-  init(date: Date, rate: Float, currency: Currency) {
+  public init(date: Date, rate: Float, currency: Currency) {
     self.date = date
     self.rate = rate
     self.currency = currency
   }
   
-  init?(date: String, rate: Float, currency: Currency) {
+  public init?(date: String, rate: Float, currency: Currency) {
     guard let date = Date.from(date: date, format: .short) else {
       return nil
     }
@@ -29,7 +29,7 @@ public struct Rate {
     self.currency = currency
   }
   
-  init?(response: DetailCurrentPriceResponse, date: Date) {
+  public init?(response: DetailCurrentPriceResponse, date: Date) {
     guard let currency = Currency(rawValue: response.code) else {
       return nil
     }
@@ -39,7 +39,7 @@ public struct Rate {
     self.currency = currency
   }
   
-  init?(response: HistoricalResponse, currency: Currency) {
+  public init?(response: HistoricalResponse, currency: Currency) {
     guard
       let dictionaryEntry = response.bpi.first,
       let date = Date.from(date: dictionaryEntry.key, format: .short)

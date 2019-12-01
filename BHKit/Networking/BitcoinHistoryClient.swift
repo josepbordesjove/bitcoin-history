@@ -8,12 +8,15 @@
 
 import Foundation
 
-class BitcoinHistoryClient: APIClient, BitcoinHistoryAPI {
-  var logLevel: APIClientLogLevel
+public class BitcoinHistoryClient: APIClient, BitcoinHistoryAPI {
+  public var logLevel: APIClientLogLevel
+  public var loader: LoaderProtocol
   
   // MARK: Object lifecycle
 
-  init() {
+  public init(loader: LoaderProtocol) {
+    self.loader = loader
+    
     #if DEBUG
     self.logLevel = .minimum
     #else
@@ -23,19 +26,19 @@ class BitcoinHistoryClient: APIClient, BitcoinHistoryAPI {
   
   // MARK: Public endpoints
   
-  func getCurrentPrice(completion: @escaping (Result<CurrentPriceResponse, Error>) -> Void) {
+  public func getCurrentPrice(completion: @escaping (Result<CurrentPriceResponse, Error>) -> Void) {
     let endpoint: CoinDeskEndpoint = .currentPrice
     self.load(endpoint: endpoint, responseType: CurrentPriceResponse.self, completion: completion)
   }
   
-  func getHistorical(start: Date?, end: Date?, currency: Currency, completion: @escaping (Result<HistoricalResponse, Error>) -> Void) {
+  public func getHistorical(start: Date?, end: Date?, currency: Currency, completion: @escaping (Result<HistoricalResponse, Error>) -> Void) {
     let endpoint: CoinDeskEndpoint = .historical(start: start, end: end, currencyCode: currency)
     self.load(endpoint: endpoint, responseType: HistoricalResponse.self, completion: completion)
   }
   
   // MARK: Helpers
   
-  internal func urlRequest(from endpoint: Endpoint) -> URLRequest? {
+  public func urlRequest(from endpoint: Endpoint) -> URLRequest? {
     var urlComponents = URLComponents()
     urlComponents.scheme = endpoint.scheme
     urlComponents.host = endpoint.host
@@ -68,5 +71,15 @@ class BitcoinHistoryClient: APIClient, BitcoinHistoryAPI {
     }
 
     return urlRequest
+  }
+  
+  public func loadDataTask(endpoint: Endpoint, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    guard let urlRequest = urlRequest(from: endpoint) else {
+      assert(false, "The url request from endpoint should always be unwrappable")
+      completion(nil, nil, APIClientError.cannotGenerateUrlRequestProperly)
+      return
+    }
+
+    loader.loadDataTask(urlRequest: urlRequest, logLevel: self.logLevel, completion: completion)
   }
 }

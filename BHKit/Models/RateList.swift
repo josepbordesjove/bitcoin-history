@@ -14,14 +14,14 @@ public struct RateList {
   public let currentCurrency: Currency
   public let list: [Rate]
   
-  init(disclaimer: String, updatedDate: Date, currentCurrency: Currency, list: [Rate]) {
+  public init(disclaimer: String, updatedDate: Date, currentCurrency: Currency, list: [Rate]) {
     self.disclaimer = disclaimer
     self.updatedDate = updatedDate
     self.currentCurrency = currentCurrency
     self.list = list
   }
   
-  init?(response: CurrentPriceResponse, currentCurrency: Currency) {
+  public init?(response: CurrentPriceResponse, currentCurrency: Currency) {
     guard let updatedDate = Date.from(date: response.time.updated, format: .long) else {
       return nil
     }
@@ -35,7 +35,7 @@ public struct RateList {
     })
   }
   
-  init?(response: HistoricalResponse, currentCurrency: Currency) {
+  public init?(response: HistoricalResponse, currentCurrency: Currency) {
     guard let updatedDate = Date.from(date: response.time.updated, format: .long) else {
       return nil
     }

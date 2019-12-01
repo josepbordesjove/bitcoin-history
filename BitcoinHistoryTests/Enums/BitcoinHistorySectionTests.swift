@@ -1,5 +1,5 @@
 //
-//  BitcoinHistorySection.swift
+//  BitcoinHistorySectionTests.swift
 //  BitcoinHistoryTests
 //
 //  Created by Josep Bordes Jové on 30/11/2019.

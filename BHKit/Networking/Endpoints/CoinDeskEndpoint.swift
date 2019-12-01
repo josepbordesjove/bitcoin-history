@@ -8,27 +8,27 @@
 
 import Foundation
 
-enum CoinDeskEndpoint: Endpoint {
+public enum CoinDeskEndpoint: Endpoint {
   case currentPrice
   case historical(start: Date?, end: Date?, currencyCode: Currency)
   
-  var scheme: String {
+  public var scheme: String {
     return "https"
   }
   
-  var host: String {
+  public var host: String {
     return "api.coindesk.com"
   }
   
-  var basePath: String {
+  public var basePath: String {
     return "bpi"
   }
   
-  var version: String {
+  public var version: String {
     return "v1"
   }
   
-  var path: String {
+  public var path: String {
     switch self {
     case .currentPrice:
       return "currentprice.json"
@@ -37,7 +37,7 @@ enum CoinDeskEndpoint: Endpoint {
     }
   }
   
-  var method: HttpMethod<Body, Parameters> {
+  public var method: HttpMethod<Body, Parameters> {
     switch self {
     case .currentPrice:
       return .get(nil)

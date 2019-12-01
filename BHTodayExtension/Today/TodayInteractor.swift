@@ -23,8 +23,11 @@ protocol TodayDataStore {
 }
 
 class TodayInteractor: TodayBusinessLogic, TodayDataStore {
+  struct Constants {
+    static let refreshTodayRateInterval: Double = 10
+  }
+
   var presenter: TodayPresentationLogic?
-  var timer: Timer?
   
   // MARK: Data store
   
@@ -44,25 +47,13 @@ class TodayInteractor: TodayBusinessLogic, TodayDataStore {
   }
   
   func startListening(request: Today.StartListening.Request) {
-    if timer != nil {
-      return
-    }
-    
-    let timeIntervalToRefresh: Double = 10
-
-    timer = Timer.scheduledTimer(withTimeInterval: timeIntervalToRefresh, repeats: true) { (_) in
-      self.worker.getCurrentPrice { (result) in
-        let response = Today.StartListening.Response(result: result)
-        self.presenter?.presentStartListening(response: response)
-      }
+    worker.startListeningForTodayUpdates(timeIntervalToRefresh: Constants.refreshTodayRateInterval) { (result) in
+      let response = Today.StartListening.Response(result: result)
+      self.presenter?.presentStartListening(response: response)
     }
   }
   
   func stopListening(request: Today.StopListening.Request) {
-    timer?.invalidate()
-    timer = nil
-    
-    let response = Today.StopListening.Response()
-    presenter?.presentStopListening(response: response)
+    worker.stopListeningForTodayUpdates()
   }
 }

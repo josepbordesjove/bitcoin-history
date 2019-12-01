@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol APIClientType {
+public protocol APIClientType {
     func loadDataTask(endpoint: Endpoint, completion: @escaping (Data?, URLResponse?, Error?) -> Void)
 }
 
 extension APIClientType {
     // MARK: Load endpoints
 
-    internal func load<T: Decodable>(endpoint: Endpoint, responseType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    func load<T: Decodable>(endpoint: Endpoint, responseType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         self.loadDataTask(endpoint: endpoint) { (data, _, error) in
             if let error = error {
                 completion(.failure(error))

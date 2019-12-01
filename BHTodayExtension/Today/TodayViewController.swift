@@ -18,7 +18,6 @@ import BHKit
 protocol TodayDisplayLogic: class {
   func displayView(viewModel: Today.PrepareView.ViewModel)
   func displayStartListening(viewModel: Today.StartListening.ViewModel)
-  func displayStopListening(viewModel: Today.StopListening.ViewModel)
 }
 
 class TodayViewController: UIViewController, NCWidgetProviding, TodayDisplayLogic {
@@ -178,10 +177,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, TodayDisplayLogi
     let request = Today.StopListening.Request()
     interactor?.stopListening(request: request)
   }
-  
-  func displayStopListening(viewModel: Today.StopListening.ViewModel) {
-    // Handle
-  }
 
   // MARK: Helpers
   
@@ -201,7 +196,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, TodayDisplayLogi
       activityView.stopAnimating()
       activityView.isHidden = true
       loadingLabel.isHidden = true
-      lastUpdatedDateLabel.text = priceDetail.updatedDate.toFormattedString(format: .long)
+      lastUpdatedDateLabel.text = priceDetail.updatedDate.toFormattedString(format: .dateHour)
       lastUpdatedDateLabel.isHidden = false
       
       let localeRate = priceDetail.list.first { $0.currency == priceDetail.currentCurrency }
@@ -211,8 +206,16 @@ class TodayViewController: UIViewController, NCWidgetProviding, TodayDisplayLogi
       tagView.tagText = localeRate?.currency.rawValue
       tagView.isHidden = false
     case .failure:
-      // TODO: Handle the error
-      break
+      loadingLabel.isHidden = false
+      loadingLabel.text = NSLocalizedString("Could not load bitcoin rate details", comment: "")
+      
+      activityView.stopAnimating()
+      activityView.isHidden = true
+      
+      bitcoinRateLabel.isHidden = true
+      tagView.isHidden = true
+      bitcoinInfoPriceLabel.isHidden = true
+      lastUpdatedDateLabel.isHidden = true
     }
   }
 }

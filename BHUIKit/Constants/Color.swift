@@ -9,7 +9,7 @@
 import UIKit
 
 public struct Color {
-  public static var brand: UIColor = .systemPink
+  public static var brand: UIColor = .systemBlue
   
   public static var background: UIColor {
     if #available(iOS 13.0, *) {

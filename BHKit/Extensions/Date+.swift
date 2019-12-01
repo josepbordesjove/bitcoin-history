@@ -28,8 +28,7 @@ public extension Date {
       }
     }
   }
-  
-  // TODO: Explain why this has been created as static
+
   private static let currentCalendar = Calendar.current
   private static let dateFormatter = DateFormatter()
   

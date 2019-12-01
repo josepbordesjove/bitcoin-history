@@ -86,18 +86,11 @@ class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisp
     
     setupView()
     setupConstraints()
-    setupNavigationItems()
     
     prepareView()
   }
   
   // MARK: Setup methods
-  
-  private func setupNavigationItems() {
-    let infoImage = Icon.info
-    let infoButton = UIBarButtonItem(image: infoImage, style: .done, target: router, action: #selector(router?.routeToInfoDisclaimer))
-    navigationItem.rightBarButtonItem = infoButton
-  }
   
   private func setupView() {
     title = NSLocalizedString("Price detail", comment: "This is the main title of the scene")

@@ -52,7 +52,7 @@ class BitcoinPriceDetailPresenterTests: XCTestCase {
     // Given
     let spy = BitcoinPriceDetailDisplayLogicSpy()
     sut.viewController = spy
-    let response = BitcoinPriceDetail.PrepareView.Response(result: .success([Rate.fake, Rate.fake1]))
+    let response = BitcoinPriceDetail.PrepareView.Response(result: .success([Rate.fake0, Rate.fake1]))
     
     // When
     sut.presentView(response: response)

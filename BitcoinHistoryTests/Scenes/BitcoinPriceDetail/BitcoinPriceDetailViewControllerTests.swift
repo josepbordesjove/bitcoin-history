@@ -71,7 +71,7 @@ class BitcoinPriceDetailViewControllerTests: XCTestCase {
   
   func testDisplayViewSuccessAndProperlyUpdate() {
     // Given 1
-    let rates = [Rate.fake, Rate.fake1]
+    let rates = [Rate.fake2, Rate.fake1]
     let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .success(rates))
     
     // When 1
@@ -82,7 +82,7 @@ class BitcoinPriceDetailViewControllerTests: XCTestCase {
     XCTAssertEqual(sut.tableViewHandler?.tableView?.numberOfRows(inSection: 0), rates.count)
     
     // Given 2
-    let newRates = [Rate.fake, Rate.fake1, Rate.fake, Rate.fake1]
+    let newRates = [Rate.fake4, Rate.fake1, Rate.fake0, Rate.fake1]
     let newViewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .success(newRates))
     
     // When 2

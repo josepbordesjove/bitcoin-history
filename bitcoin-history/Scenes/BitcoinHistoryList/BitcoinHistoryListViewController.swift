@@ -41,14 +41,9 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
     setup(store: store)
   }
   
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    setup()
-  }
-  
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    setup()
+    fatalError("Should never be created from storyboards")
   }
   
   deinit {
@@ -57,7 +52,7 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
   
   // MARK: Setup
   
-  private func setup(store: StoreProtocol = Store()) {
+  private func setup(store: StoreProtocol) {
     let viewController = self
     let interactor = BitcoinHistoryListInteractor(store: store)
     let presenter = BitcoinHistoryListPresenter()
@@ -84,8 +79,6 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
   // MARK: Setup methods
   
   private func setupView() {
-    title = NSLocalizedString("Price history", comment: "This is the main title of the scene")
-    
     navigationController?.navigationItem.largeTitleDisplayMode = .always
     navigationController?.navigationBar.prefersLargeTitles = true
     

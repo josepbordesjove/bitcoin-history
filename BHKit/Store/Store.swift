@@ -133,8 +133,8 @@ public class Store: StoreProtocol {
       return
     }
 
-    timer = Timer.scheduledTimer(withTimeInterval: timeIntervalToRefresh, repeats: true) { (_) in
-      self.bitcoinHistoryClient.getCurrentPrice() { (result) in
+    timer = Timer.scheduledTimer(withTimeInterval: timeIntervalToRefresh, repeats: true) { [weak self] (_) in
+      self?.bitcoinHistoryClient.getCurrentPrice() { (result) in
         switch result {
         case .success(let response):
           if let rateList = RateList(response: response, currentCurrency: selectedCurrency) {

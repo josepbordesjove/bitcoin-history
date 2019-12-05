@@ -20,13 +20,15 @@ class BitcoinPriceDetailPresenter: BitcoinPriceDetailPresentationLogic {
   weak var viewController: BitcoinPriceDetailDisplayLogic?
   
   func presentView(response: BitcoinPriceDetail.PrepareView.Response) {
+    let title = NSLocalizedString("Price detail", comment: "This is the main title of the scene")
+
     switch response.result {
     case .success(let details):
       let sortedDetails = details.sorted { $0.currency.rawValue < $1.currency.rawValue }
-      let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .success(sortedDetails))
+      let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(title: title, result: .success(sortedDetails))
       viewController?.displayView(viewModel: viewModel)
     case .failure(let error):
-      let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .failure(error))
+      let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(title: title, result: .failure(error))
       viewController?.displayView(viewModel: viewModel)
     }
   }

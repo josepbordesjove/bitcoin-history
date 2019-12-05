@@ -42,7 +42,9 @@ class BitcoinHistoryListInteractor: BitcoinHistoryListBusinessLogic, BitcoinHist
   
   // MARK: Private vars
   
-  var sections: [BitconHistorySection] = []
+  var todaySection: BitconHistorySection?
+  var historicSection: BitconHistorySection?
+  var placeholderSection: BitconHistorySection?
   
   // MARK: Workers
   
@@ -74,15 +76,19 @@ class BitcoinHistoryListInteractor: BitcoinHistoryListBusinessLogic, BitcoinHist
   }
   
   func startUpdatingTodayRate(request: BitcoinHistoryList.StartUpdatingForPrice.Request) {
-    worker.startListeningForTodayUpdates(timeIntervalToRefresh: timeIntervalToRefresh) { (result) in
+    worker.startListeningForTodayUpdates(timeIntervalToRefresh: timeIntervalToRefresh) { [weak self] (result) in
       switch result {
       case .success(let todayRate):
-        self.handleTodayRateSuccess(todayRate)
-        let response = BitcoinHistoryList.StartUpdatingForPrice.Response(result: .success(self.sections))
-        self.presenter?.presentStartUpdatingTodayRate(response: response)
+        self?.handleTodayRateSuccess(todayRate)
+        if let unwrappedSections = self?.sections {
+            let response = BitcoinHistoryList.StartUpdatingForPrice.Response(result: .success(unwrappedSections))
+            self?.presenter?.presentStartUpdatingTodayRate(response: response)
+        } else {
+            // If self is not available, it does not make sense to continue
+        }
       case .failure(let error):
         let response = BitcoinHistoryList.StartUpdatingForPrice.Response(result: .failure(error))
-        self.presenter?.presentStartUpdatingTodayRate(response: response)
+        self?.presenter?.presentStartUpdatingTodayRate(response: response)
       }
     }
   }
@@ -106,11 +112,16 @@ class BitcoinHistoryListInteractor: BitcoinHistoryListBusinessLogic, BitcoinHist
   // MARK: Helpers
   
   private func getTodaysRate(completion: @escaping (Result<[BitconHistorySection], Error>) -> Void) {
-    self.worker.getCurrentPrice { (result) in
+    self.worker.getCurrentPrice { [weak self] (result) in
       switch result {
       case .success(let todayRate):
-        self.handleTodayRateSuccess(todayRate)
-        completion(.success(self.sections))
+        self?.handleTodayRateSuccess(todayRate)
+        if let sectionsUnwraped = self?.sections {
+            completion(.success(sectionsUnwraped))
+        } else {
+            // If self is not available, it does not make sense to continue
+            return
+        }
       case .failure(let error):
         completion(.failure(error))
       }
@@ -121,11 +132,16 @@ class BitcoinHistoryListInteractor: BitcoinHistoryListBusinessLogic, BitcoinHist
     let initialDate = Date(substractingDays: Constants.previousDaysToFetch)
     let finalDate = Date()
 
-    worker.getHistorical(start: initialDate, end: finalDate) { (result) in
+    worker.getHistorical(start: initialDate, end: finalDate) { [weak self] (result) in
       switch result {
       case .success(let historicalList):
-        self.handleHistoricalListSuccess(historicalList)
-        completion(.success(self.sections))
+        self?.handleHistoricalListSuccess(historicalList)
+        if let sectionsUnwraped = self?.sections {
+            completion(.success(sectionsUnwraped))
+        } else {
+            // If self is not available, it does not make sense to continue
+            return
+        }
       case .failure(let error):
         completion(.failure(error))
       }

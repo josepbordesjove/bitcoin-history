@@ -22,13 +22,15 @@ class BitcoinHistoryListPresenter: BitcoinHistoryListPresentationLogic {
   weak var viewController: BitcoinHistoryListDisplayLogic?
   
   func presentView(response: BitcoinHistoryList.PrepareView.Response) {
+    let title = NSLocalizedString("Price history", comment: "This is the main title of the scene")
+
     switch response.result {
     case .success(let sections):
       let sortedSections = sections.sorted { $0.position < $1.position }
-      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .success(sortedSections))
+      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(title: title, result: .success(sortedSections))
       viewController?.displayView(viewModel: viewModel)
     case .failure(let error):
-      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .failure(error))
+      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(title: title, result: .failure(error))
       viewController?.displayView(viewModel: viewModel)
     }
   }
@@ -40,8 +42,8 @@ class BitcoinHistoryListPresenter: BitcoinHistoryListPresentationLogic {
       let viewModel = BitcoinHistoryList.StartUpdatingForPrice.ViewModel(result: .success(sortedSections))
       viewController?.displayStartUpdatingTodayRate(viewModel: viewModel)
     case .failure(let error):
-      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .failure(error))
-      viewController?.displayView(viewModel: viewModel)
+      let viewModel = BitcoinHistoryList.StartUpdatingForPrice.ViewModel(result: .failure(error))
+      viewController?.displayStartUpdatingTodayRate(viewModel: viewModel)
     }
   }
   
@@ -52,8 +54,8 @@ class BitcoinHistoryListPresenter: BitcoinHistoryListPresentationLogic {
       let viewModel = BitcoinHistoryList.ForceUpdateTodaysRate.ViewModel(result: .success(sortedSections))
       viewController?.displayForceUpdateTodaysRate(viewModel: viewModel)
     case .failure(let error):
-      let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .failure(error))
-      viewController?.displayView(viewModel: viewModel)
+      let viewModel = BitcoinHistoryList.ForceUpdateTodaysRate.ViewModel(result: .failure(error))
+      viewController?.displayForceUpdateTodaysRate(viewModel: viewModel)
     }
   }
 }

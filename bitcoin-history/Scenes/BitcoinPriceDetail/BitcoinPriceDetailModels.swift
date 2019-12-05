@@ -23,6 +23,7 @@ enum BitcoinPriceDetail {
       let result: Result<[Rate],Error>
     }
     struct ViewModel {
+      let title: String
       let result: Result<[Rate],Error>
     }
   }

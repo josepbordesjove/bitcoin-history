@@ -49,15 +49,15 @@ class BitcoinPriceDetailInteractor: BitcoinPriceDetailBusinessLogic, BitcoinPric
       return
     }
 
-    worker.getHistoricDetail(rate: historicRate) { (result) in
+    worker.getHistoricDetail(rate: historicRate) { [weak self] (result) in
       switch result {
       case .success(let priceDetail):
-        self.dayRate = priceDetail
+        self?.dayRate = priceDetail
         let response = BitcoinPriceDetail.PrepareView.Response(result: .success(priceDetail.list))
-        self.presenter?.presentView(response: response)
+        self?.presenter?.presentView(response: response)
       case .failure(let error):
         let response = BitcoinPriceDetail.PrepareView.Response(result: .failure(error))
-        self.presenter?.presentView(response: response)
+        self?.presenter?.presentView(response: response)
       }
     }
   }

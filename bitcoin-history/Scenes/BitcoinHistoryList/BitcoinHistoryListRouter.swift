@@ -12,6 +12,7 @@
 
 import UIKit
 import BHUIKit
+import BHKit
 
 @objc protocol BitcoinHistoryListRoutingLogic {
   func routeToInfoDisclaimer()
@@ -44,7 +45,7 @@ class BitcoinHistoryListRouter: NSObject, BitcoinHistoryListRoutingLogic, Bitcoi
   }
   
   func routeToBitcoinRateDetail() {
-    let destinationVC = BitcoinPriceDetailViewController(nibName: nil, bundle: nil)
+    let destinationVC = BitcoinPriceDetailViewController(store: Store())
     var destinationDS = destinationVC.router!.dataStore!
     passDataToBitcoinPriceDetail(source: dataStore!, destination: &destinationDS)
     navigateToBitcoinPriceDetail(source: viewController!, destination: destinationVC)

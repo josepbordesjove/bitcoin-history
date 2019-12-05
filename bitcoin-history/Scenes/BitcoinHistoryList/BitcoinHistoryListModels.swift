@@ -13,16 +13,27 @@
 import UIKit
 import BHKit
 
+protocol ListResponse {
+  var todaySection: BitconHistorySection? { get }
+  var historicSection: BitconHistorySection? { get }
+  var placeholderSection: BitconHistorySection? { get }
+  var error: Error? { get }
+}
+
 enum BitcoinHistoryList {
   // MARK: Use cases
   
   enum PrepareView {
     struct Request {
     }
-    struct Response {
-      let result: Result<[BitconHistorySection], Error>
+    struct Response: ListResponse {
+      var todaySection: BitconHistorySection?
+      var historicSection: BitconHistorySection?
+      var placeholderSection: BitconHistorySection?
+      var error: Error?
     }
     struct ViewModel {
+      let title: String
       let result: Result<[BitconHistorySection], Error>
     }
   }
@@ -30,8 +41,11 @@ enum BitcoinHistoryList {
   enum ForceUpdateTodaysRate {
     struct Request {
     }
-    struct Response {
-      let result: Result<[BitconHistorySection], Error>
+    struct Response: ListResponse {
+      var todaySection: BitconHistorySection?
+      var historicSection: BitconHistorySection?
+      var placeholderSection: BitconHistorySection?
+      var error: Error?
     }
     struct ViewModel {
       let result: Result<[BitconHistorySection], Error>
@@ -41,8 +55,11 @@ enum BitcoinHistoryList {
   enum StartUpdatingForPrice {
     struct Request {
     }
-    struct Response {
-      let result: Result<[BitconHistorySection], Error>
+    struct Response: ListResponse {
+      var todaySection: BitconHistorySection?
+      var historicSection: BitconHistorySection?
+      var placeholderSection: BitconHistorySection?
+      var error: Error?
     }
     struct ViewModel {
       let result: Result<[BitconHistorySection], Error>

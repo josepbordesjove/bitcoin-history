@@ -44,12 +44,20 @@ class BitcoinHistoryListPresenterTests: XCTestCase {
     var displayStopUpdatingTodayRateCalled = false
     var displayForceUpdateTodaysRateCalled = false
     
+    var listIsSortedInViewModel = false
+    var containsHistoricSection = false
+    var containsTodaySection = false
+    var containsPlaceholder = false
+    var errorHappened = false
+    
     func displayView(viewModel: BitcoinHistoryList.PrepareView.ViewModel) {
       displayViewCalled = true
+      handle(result: viewModel.result)
     }
     
     func displayStartUpdatingTodayRate(viewModel: BitcoinHistoryList.StartUpdatingForPrice.ViewModel) {
       displayStartUpdatingTodayRateCalled = true
+      handle(result: viewModel.result)
     }
     
     func displayStopUpdatingTodayRate(viewModel: BitcoinHistoryList.StopUpdatingForPrice.ViewModel) {
@@ -58,6 +66,27 @@ class BitcoinHistoryListPresenterTests: XCTestCase {
     
     func displayForceUpdateTodaysRate(viewModel: BitcoinHistoryList.ForceUpdateTodaysRate.ViewModel) {
       displayForceUpdateTodaysRateCalled = true
+      handle(result: viewModel.result)
+    }
+    
+    private func handle(result: Result<[BitconHistorySection], Error>) {
+        switch result {
+        case .success(let sections):
+            sections.forEach { (section) in
+                switch section {
+                case .today:
+                    containsTodaySection = true
+                case .historic(let list):
+                    containsHistoricSection = true
+                    let sortedRateList = list.list.sorted { $0.date > $1.date }
+                    listIsSortedInViewModel = sortedRateList == list.list
+                case .placeholder:
+                    containsPlaceholder = true
+                }
+            }
+        case .failure:
+            errorHappened = false
+        }
     }
   }
   
@@ -67,13 +96,16 @@ class BitcoinHistoryListPresenterTests: XCTestCase {
     // Given
     let spy = BitcoinHistoryListDisplayLogicSpy()
     sut.viewController = spy
-    let response = BitcoinHistoryList.PrepareView.Response(result: .success([]))
+    let response = BitcoinHistoryList.PrepareView.Response(result: .success([.historic(list: RateList.fake), .today(detail: RateList.fake)]))
     
     // When
     sut.presentView(response: response)
     
     // Then
     XCTAssertTrue(spy.displayViewCalled, "presentView(response:) should ask the view controller to display the result")
+    XCTAssertTrue(spy.containsTodaySection, "")
+    XCTAssertTrue(spy.listIsSortedInViewModel, "")
+    XCTAssertTrue(spy.containsHistoricSection, "")
   }
   
   func testDisplayStartUpdatingTodayRate(){
@@ -88,11 +120,14 @@ class BitcoinHistoryListPresenterTests: XCTestCase {
 
     // Then
     XCTAssertTrue(spy.displayStartUpdatingTodayRateCalled, "presentStartUpdatingTodayRate(response:) should ask the view controller to display the result")
+    XCTAssertTrue(spy.containsTodaySection, "")
+    XCTAssertTrue(spy.listIsSortedInViewModel, "")
+    XCTAssertTrue(spy.containsHistoricSection, "")
   }
 
   func testDisplayForceUpdateTodaysRate() {
     // Given
-    let sections: [BitconHistorySection] = [.historic(list: RateList.fake), .today(detail: RateList.fake)]
+    let sections: [BitconHistorySection] = [.historic(list: RateList.fake)]
     let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(result: .success(sections))
     let spy = BitcoinHistoryListDisplayLogicSpy()
     sut.viewController = spy
@@ -102,5 +137,8 @@ class BitcoinHistoryListPresenterTests: XCTestCase {
     
     // Then
     XCTAssertTrue(spy.displayForceUpdateTodaysRateCalled, "presentForceUpdateTodaysRate(response:) should ask the view controller to display the result")
+    XCTAssertFalse(spy.containsTodaySection, "")
+    XCTAssertTrue(spy.listIsSortedInViewModel, "")
+    XCTAssertTrue(spy.containsHistoricSection, "")
   }
 }

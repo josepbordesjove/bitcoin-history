@@ -58,13 +58,13 @@ public extension RateList {
     disclaimer: "Some disclaimer text",
     updatedDate: Date(),
     currentCurrency: .gbp,
-    list: [Rate.fake]
+    list: [Rate.fake3, Rate.fake5, Rate.fake2, Rate.fake1, Rate.fake0, Rate.fake9]
   )
   
   static let fake1 = RateList(
     disclaimer: "Some disclaimer text 1",
     updatedDate: Date(),
     currentCurrency: .gbp,
-    list: [Rate.fake1]
+    list: [Rate.fake3, Rate.fake5, Rate.fake2, Rate.fake1, Rate.fake0, Rate.fake9]
   )
 }

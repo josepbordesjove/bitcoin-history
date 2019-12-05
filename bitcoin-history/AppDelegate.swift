@@ -8,6 +8,7 @@
 
 import UIKit
 import BHUIKit
+import BHKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // Configure the split view controller
-    let bitcoinHistoryListViewController = BitcoinHistoryListViewController(nibName: nil, bundle: nil)
+    let bitcoinHistoryListViewController = BitcoinHistoryListViewController(store: Store())
     let masterViewController = UINavigationController(rootViewController: bitcoinHistoryListViewController)
     masterViewController.navigationBar.tintColor = Color.brand
 

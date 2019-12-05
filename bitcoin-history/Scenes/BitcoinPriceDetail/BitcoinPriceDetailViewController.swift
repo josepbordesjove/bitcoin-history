@@ -54,19 +54,14 @@ class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisp
     setup(store: store)
   }
   
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    setup()
-  }
-  
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    setup()
+    fatalError("Should never be created from storyboards")
   }
   
   // MARK: Setup
   
-  private func setup(store: StoreProtocol = Store()) {
+  private func setup(store: StoreProtocol) {
     let viewController = self
     let interactor = BitcoinPriceDetailInteractor(store: store)
     let presenter = BitcoinPriceDetailPresenter()
@@ -93,8 +88,6 @@ class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisp
   // MARK: Setup methods
   
   private func setupView() {
-    title = NSLocalizedString("Price detail", comment: "This is the main title of the scene")
-    
     navigationItem.largeTitleDisplayMode = .always
     navigationController?.navigationBar.prefersLargeTitles = true
     
@@ -130,6 +123,8 @@ class BitcoinPriceDetailViewController: UIViewController, BitcoinPriceDetailDisp
   }
   
   func displayView(viewModel: BitcoinPriceDetail.PrepareView.ViewModel) {
+    title = viewModel.title
+    
     switch viewModel.result {
     case .success(let currencyDetails):
       if tableViewHandler == nil {

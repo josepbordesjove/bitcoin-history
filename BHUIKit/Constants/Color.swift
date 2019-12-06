@@ -9,7 +9,11 @@
 import UIKit
 
 public struct Color {
+  #if targetEnvironment(macCatalyst)
+  public static var brand: UIColor = .systemGray4
+  #else
   public static var brand: UIColor = .systemBlue
+  #endif
   
   public static var background: UIColor {
     if #available(iOS 13.0, *) {
@@ -21,7 +25,7 @@ public struct Color {
   
   public static var secondary: UIColor {
     if #available(iOS 13.0, *) {
-      return UIColor.systemGray2
+      return UIColor.systemGray6
     } else {
       return UIColor.gray
     }

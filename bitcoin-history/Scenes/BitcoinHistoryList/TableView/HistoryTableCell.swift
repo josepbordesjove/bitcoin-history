@@ -64,7 +64,7 @@ class HistoryTableCell: UITableViewCell, CellIdentifier {
   
   private func setupView() {
     accessoryType = .disclosureIndicator
-    
+
     [dayLabel, rateLabel, tagView].forEach { addSubview($0) }
   }
   
@@ -80,5 +80,15 @@ class HistoryTableCell: UITableViewCell, CellIdentifier {
       dayLabel.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
       dayLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
     ])
+  }
+  
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(selected, animated: animated)
+    
+    if selected {
+      dayLabel.textColor = .lightGray
+    } else {
+      dayLabel.textColor = Color.brand
+    }
   }
 }

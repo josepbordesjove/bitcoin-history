@@ -126,7 +126,12 @@ public class PlaceholderView: UIView {
   }()
   
   private(set) lazy var activityIndicator: UIActivityIndicatorView = {
+    #if targetEnvironment(macCatalyst)
+    let indicator = UIActivityIndicatorView(style: .medium)
+    #else
     let indicator = UIActivityIndicatorView(style: isDarkMode ? .white : .gray)
+    #endif
+
     indicator.startAnimating()
     indicator.translatesAutoresizingMaskIntoConstraints = false
     
@@ -262,9 +267,9 @@ public class PlaceholderView: UIView {
       descriptionLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
       
       placeholderImageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -20),
-      placeholderImageView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-      placeholderImageView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
-      placeholderImageView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor),
+      placeholderImageView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 40),
+      placeholderImageView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor, constant: 20),
+      placeholderImageView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor, constant: -20),
       
       callToActionButton.heightAnchor.constraint(equalToConstant: 44),
       callToActionButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),

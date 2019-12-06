@@ -18,6 +18,7 @@ class PlaceholderCell: UITableViewCell, CellIdentifier {
   private lazy var ratePlaceholderView: UIView = {
     let view = UIView()
     view.backgroundColor = Color.infoText
+    view.layer.cornerRadius = 2
     view.translatesAutoresizingMaskIntoConstraints = false
 
     return view
@@ -26,6 +27,7 @@ class PlaceholderCell: UITableViewCell, CellIdentifier {
   private lazy var datePlaceholderView: UIView = {
     let view = UIView()
     view.backgroundColor = Color.extraInfoText
+    view.layer.cornerRadius = 2
     view.translatesAutoresizingMaskIntoConstraints = false
 
     return view
@@ -40,7 +42,11 @@ class PlaceholderCell: UITableViewCell, CellIdentifier {
   }()
   
   private lazy var activityIndicator: UIActivityIndicatorView = {
-    let activityIndicator = UIActivityIndicatorView(style: .white)
+    #if targetEnvironment(macCatalyst)
+    let activityIndicator = UIActivityIndicatorView(style: .medium)
+    #else
+    let activityIndicator = UIActivityIndicatorView(style: isDarkMode ? .white : .gray)
+    #endif
     activityIndicator.translatesAutoresizingMaskIntoConstraints = false
 
     return activityIndicator

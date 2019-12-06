@@ -110,4 +110,16 @@ class TodayTableCell: UITableViewCell, CellIdentifier {
       updatedLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
     ])
   }
+  
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(selected, animated: animated)
+    
+    if selected {
+      todayImageView.image = Icon.star?.tint(with: .lightGray)
+      todayLabel.textColor = .lightGray
+    } else {
+      todayImageView.image = Icon.star?.tint(with: Color.brand)
+      todayLabel.textColor = Color.brand
+    }
+  }
 }

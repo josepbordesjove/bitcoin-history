@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,12 +26,13 @@
 		FF437A6B2391F9BD001B31BA /* TodayModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF437A652391F9BD001B31BA /* TodayModels.swift */; };
 		FF437A6C2391F9BD001B31BA /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF437A662391F9BD001B31BA /* TodayViewController.swift */; };
 		FF437A6D2391F9BD001B31BA /* TodayInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF437A672391F9BD001B31BA /* TodayInteractor.swift */; };
-		FF939B5A2391FC7300C80B0F /* BHKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; };
-		FF939B5B2391FC7300C80B0F /* BHKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FF939B5E2391FC7300C80B0F /* BHUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF437A3D2391A114001B31BA /* BHUIKit.framework */; };
-		FF939B5F2391FC7300C80B0F /* BHUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FF437A3D2391A114001B31BA /* BHUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FF939B5A2391FC7300C80B0F /* BHKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; platformFilter = ios; };
+		FF939B5B2391FC7300C80B0F /* BHKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FF939B5E2391FC7300C80B0F /* BHUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF437A3D2391A114001B31BA /* BHUIKit.framework */; platformFilter = ios; };
+		FF939B5F2391FC7300C80B0F /* BHUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FF437A3D2391A114001B31BA /* BHUIKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FF939B642392759600C80B0F /* PlaceholderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF939B632392759600C80B0F /* PlaceholderCell.swift */; };
 		FF939B67239287F200C80B0F /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF939B66239287F200C80B0F /* PlaceholderView.swift */; };
+		FF990FAE239A65F000591F0B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF990FAD239A65F000591F0B /* SceneDelegate.swift */; };
 		FFBEDF422392E3DD008B0E33 /* BitcoinPriceDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBEDF3E2392E3DD008B0E33 /* BitcoinPriceDetailViewControllerTests.swift */; };
 		FFBEDF432392E3DD008B0E33 /* BitcoinPriceDetailInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBEDF3F2392E3DD008B0E33 /* BitcoinPriceDetailInteractorTests.swift */; };
 		FFBEDF452392E3DD008B0E33 /* BitcoinPriceDetailPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBEDF412392E3DD008B0E33 /* BitcoinPriceDetailPresenterTests.swift */; };
@@ -53,8 +54,8 @@
 		FFC2C8DF238F0B00008745A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2C8DE238F0B00008745A5 /* AppDelegate.swift */; };
 		FFC2C8EB238F0B02008745A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFC2C8EA238F0B02008745A5 /* Assets.xcassets */; };
 		FFC2C8EE238F0B02008745A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFC2C8EC238F0B02008745A5 /* LaunchScreen.storyboard */; };
-		FFC2C90E238F0DD4008745A5 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C90D238F0DD4008745A5 /* NotificationCenter.framework */; };
-		FFC2C918238F0DD4008745A5 /* BHTodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FFC2C90B238F0DD4008745A5 /* BHTodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FFC2C90E238F0DD4008745A5 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C90D238F0DD4008745A5 /* NotificationCenter.framework */; platformFilter = ios; };
+		FFC2C918238F0DD4008745A5 /* BHTodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FFC2C90B238F0DD4008745A5 /* BHTodayExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FFC2C926238F0DEF008745A5 /* BHKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FFC2C924238F0DEF008745A5 /* BHKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFC2C929238F0DEF008745A5 /* BHKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; };
 		FFC2C92A238F0DEF008745A5 /* BHKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -207,6 +208,9 @@
 		FF437A672391F9BD001B31BA /* TodayInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayInteractor.swift; sourceTree = "<group>"; };
 		FF939B632392759600C80B0F /* PlaceholderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderCell.swift; sourceTree = "<group>"; };
 		FF939B66239287F200C80B0F /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
+		FF990FAB239A63CF00591F0B /* Bitcoin History.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bitcoin History.entitlements"; sourceTree = "<group>"; };
+		FF990FAC239A63FF00591F0B /* BHTodayExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BHTodayExtension.entitlements; sourceTree = "<group>"; };
+		FF990FAD239A65F000591F0B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FFBEDF312392E1BC008B0E33 /* BitcoinHistoryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BitcoinHistoryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFBEDF352392E1BC008B0E33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFBEDF3E2392E3DD008B0E33 /* BitcoinPriceDetailViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinPriceDetailViewControllerTests.swift; sourceTree = "<group>"; };
@@ -533,7 +537,9 @@
 		FFC2C8DD238F0B00008745A5 /* bitcoin-history */ = {
 			isa = PBXGroup;
 			children = (
+				FF990FAB239A63CF00591F0B /* Bitcoin History.entitlements */,
 				FFC2C8DE238F0B00008745A5 /* AppDelegate.swift */,
+				FF990FAD239A65F000591F0B /* SceneDelegate.swift */,
 				FFBEDF562393EEA1008B0E33 /* Constants */,
 				FF437A332391723D001B31BA /* Protocols */,
 				FF437A30239171EF001B31BA /* Extensions */,
@@ -559,6 +565,7 @@
 		FFC2C90F238F0DD4008745A5 /* BHTodayExtension */ = {
 			isa = PBXGroup;
 			children = (
+				FF990FAC239A63FF00591F0B /* BHTodayExtension.entitlements */,
 				FF437A572391A27C001B31BA /* MainInterface.storyboard */,
 				FF437A612391F9A7001B31BA /* Today */,
 				FFC2C915238F0DD4008745A5 /* Info.plist */,
@@ -1024,6 +1031,7 @@
 				FFC2C99A239055A6008745A5 /* TodayTableCell.swift in Sources */,
 				FF437A602391E554001B31BA /* RateTableCell.swift in Sources */,
 				FFC2C939238F10E2008745A5 /* BitcoinPriceDetailRouter.swift in Sources */,
+				FF990FAE239A65F000591F0B /* SceneDelegate.swift in Sources */,
 				FFC2C95D238F1749008745A5 /* BitcoinPriceDetailTableHandler.swift in Sources */,
 				FFC2C956238F120E008745A5 /* BitcoinHistoryListInteractor.swift in Sources */,
 				FFC2C93C238F10E2008745A5 /* BitcoinPriceDetailInteractor.swift in Sources */,
@@ -1095,11 +1103,13 @@
 		};
 		FF939B5D2391FC7300C80B0F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = FFC2C921238F0DEF008745A5 /* BHKit */;
 			targetProxy = FF939B5C2391FC7300C80B0F /* PBXContainerItemProxy */;
 		};
 		FF939B612391FC7300C80B0F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = FF437A3C2391A114001B31BA /* BHUIKit */;
 			targetProxy = FF939B602391FC7300C80B0F /* PBXContainerItemProxy */;
 		};
@@ -1115,6 +1125,7 @@
 		};
 		FFC2C917238F0DD4008745A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = FFC2C90A238F0DD4008745A5 /* BHTodayExtension */;
 			targetProxy = FFC2C916238F0DD4008745A5 /* PBXContainerItemProxy */;
 		};
@@ -1168,7 +1179,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.BHUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1200,7 +1211,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.BHUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1407,7 +1418,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "bitcoin-history/Bitcoin History.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 2DX87RQR8M;
 				INFOPLIST_FILE = "bitcoin-history/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1416,6 +1430,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.josepbordes.bitcoin-history";
 				PRODUCT_NAME = "Bitcoin History";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1426,7 +1441,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "bitcoin-history/Bitcoin History.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 2DX87RQR8M;
 				INFOPLIST_FILE = "bitcoin-history/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1435,6 +1453,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.josepbordes.bitcoin-history";
 				PRODUCT_NAME = "Bitcoin History";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1443,7 +1462,9 @@
 		FFC2C91A238F0DD4008745A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BHTodayExtension/BHTodayExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 2DX87RQR8M;
 				INFOPLIST_FILE = BHTodayExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1454,6 +1475,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.josepbordes.bitcoin-history.BHTodayExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1462,7 +1484,9 @@
 		FFC2C91B238F0DD4008745A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BHTodayExtension/BHTodayExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 2DX87RQR8M;
 				INFOPLIST_FILE = BHTodayExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1473,6 +1497,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.josepbordes.bitcoin-history.BHTodayExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1500,7 +1525,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.BHKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1531,7 +1556,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.BHKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";

@@ -83,12 +83,16 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
     navigationController?.navigationBar.prefersLargeTitles = true
     
     tableView.tableFooterView = UIView()
+    
+    #if !targetEnvironment(macCatalyst)
     tableView.refreshControl = refresher
+    #endif
     
     view.backgroundColor = Color.background
   }
   
   private func setupNavigationItems() {
+    
     let infoImage = Icon.info
     let infoButton = UIBarButtonItem(image: infoImage, style: .done, target: router, action: #selector(router?.routeToInfoDisclaimer))
     navigationItem.rightBarButtonItem = infoButton
@@ -109,7 +113,7 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
   
   // MARK: Force to update today's rate
   
-  @objc private func forceUpdateTodaysRate() {
+  @objc func forceUpdateTodaysRate() {
     let request = BitcoinHistoryList.ForceUpdateTodaysRate.Request()
     interactor?.forceUpdateTodaysRate(request: request)
   }
@@ -193,22 +197,24 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
   }
   
   private func selectFirstIndexPathIfNeeded() {
-    guard
-      let rootController = UIApplication.shared.keyWindow?.rootViewController as? UISplitViewController,
-      let sections = tableViewHandler?.sections,
-      sections.containsTodaySection && tableView.indexPathForSelectedRow == nil && rootController.traitCollection.horizontalSizeClass == .regular
-    else {
-        return
+    UIApplication.shared.windows.forEach { (window) in
+      guard
+          let rootController = window.rootViewController as? UISplitViewController,
+          let sections = tableViewHandler?.sections,
+          sections.containsTodaySection && tableView.indexPathForSelectedRow == nil && rootController.traitCollection.horizontalSizeClass == .regular
+        else {
+            return
+        }
+        
+        let firstIndexPath = IndexPath(row: 0, section: 0)
+        tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .none)
+        tableView.delegate?.tableView?(tableView, didSelectRowAt: firstIndexPath)
+        
+        if let cell = tableView.cellForRow(at: firstIndexPath) {
+          cell.setSelected(true, animated: false)
+        }
+      }
     }
-    
-    let firstIndexPath = IndexPath(row: 0, section: 0)
-    tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .none)
-    tableView.delegate?.tableView?(tableView, didSelectRowAt: firstIndexPath)
-    
-    if let cell = tableView.cellForRow(at: firstIndexPath) {
-      cell.setSelected(true, animated: false)
-    }
-  }
 }
 
 // MARK: BitcoinHistoryTableHandlerDelegate

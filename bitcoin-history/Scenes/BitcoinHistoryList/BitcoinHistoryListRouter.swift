@@ -52,17 +52,19 @@ class BitcoinHistoryListRouter: NSObject, BitcoinHistoryListRoutingLogic, Bitcoi
   }
   
   func updateDataToBitcoinRateDetailIfPresented() {
-    guard let rootController = UIApplication.shared.keyWindow?.rootViewController as? UISplitViewController else {
-        return
-    }
-    
-    rootController.viewControllers.forEach { (viewController) in
-      if let navigationViewController = viewController as? UINavigationController {
-        navigationViewController.viewControllers.forEach { (viewController) in
-          if let detailViewController = viewController as? BitcoinPriceDetailViewController {
-            var destinationDS = detailViewController.router!.dataStore!
-            passDataToBitcoinPriceDetail(source: dataStore!, destination: &destinationDS)
-            detailViewController.prepareView()
+    UIApplication.shared.windows.forEach { (window) in
+      guard let rootController = window.rootViewController as? UISplitViewController else {
+          return
+      }
+
+      rootController.viewControllers.forEach { (viewController) in
+        if let navigationViewController = viewController as? UINavigationController {
+          navigationViewController.viewControllers.forEach { (viewController) in
+            if let detailViewController = viewController as? BitcoinPriceDetailViewController {
+              var destinationDS = detailViewController.router!.dataStore!
+              passDataToBitcoinPriceDetail(source: dataStore!, destination: &destinationDS)
+              detailViewController.prepareView()
+            }
           }
         }
       }
@@ -72,8 +74,14 @@ class BitcoinHistoryListRouter: NSObject, BitcoinHistoryListRoutingLogic, Bitcoi
   // MARK: Navigation
   
   func navigateToBitcoinPriceDetail(source: BitcoinHistoryListViewController, destination: BitcoinPriceDetailViewController) {
+    #if targetEnvironment(macCatalyst)
+    let detailViewController = destination
+    #else
     let detailViewController = UINavigationController(rootViewController: destination)
     detailViewController.navigationBar.tintColor = Color.brand
+    #endif
+    
+    
     source.showDetailViewController(detailViewController, sender: self)
   }
   

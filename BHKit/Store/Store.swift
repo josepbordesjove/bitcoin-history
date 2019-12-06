@@ -139,7 +139,7 @@ public class Store: StoreProtocol {
         case .success(let response):
           if let rateList = RateList(response: response, currentCurrency: selectedCurrency) {
             // In order to make the loading more stabilized over time, make it at least last for 0.5 second
-            let delay = -1*startDate.timeIntervalSinceNow > 0.5 ? 0 : 0.5
+            let delay = -1*startDate.timeIntervalSinceNow > 1.5 ? 0 : 1.5
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
               completion(.success(rateList))
             }

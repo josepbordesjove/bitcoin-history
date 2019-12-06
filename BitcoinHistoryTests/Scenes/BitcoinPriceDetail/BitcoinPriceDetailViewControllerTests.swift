@@ -72,7 +72,7 @@ class BitcoinPriceDetailViewControllerTests: XCTestCase {
   func testDisplayViewSuccessAndProperlyUpdate() {
     // Given 1
     let rates = [Rate.fake2, Rate.fake1]
-    let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .success(rates))
+    let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(title: "Some title", result: .success(rates))
     
     // When 1
     loadView()
@@ -83,7 +83,7 @@ class BitcoinPriceDetailViewControllerTests: XCTestCase {
     
     // Given 2
     let newRates = [Rate.fake4, Rate.fake1, Rate.fake0, Rate.fake1]
-    let newViewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .success(newRates))
+    let newViewModel = BitcoinPriceDetail.PrepareView.ViewModel(title: "Some title", result: .success(newRates))
     
     // When 2
     loadView()
@@ -96,7 +96,7 @@ class BitcoinPriceDetailViewControllerTests: XCTestCase {
   func testDisplayViewFailure() {
     // Given
     let error = NSError(domain: "TestError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Test Error"])
-    let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .failure(error))
+    let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(title: "Some title", result: .failure(error))
     
     // When
     loadView()
@@ -109,7 +109,7 @@ class BitcoinPriceDetailViewControllerTests: XCTestCase {
   
   func testDisplayEmptySuccess() {
     // Given
-    let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(result: .success([]))
+    let viewModel = BitcoinPriceDetail.PrepareView.ViewModel(title: "Some title", result: .success([]))
     
     // When
     loadView()

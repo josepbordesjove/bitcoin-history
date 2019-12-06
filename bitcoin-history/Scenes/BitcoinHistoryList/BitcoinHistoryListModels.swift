@@ -14,9 +14,8 @@ import UIKit
 import BHKit
 
 protocol ListResponse {
-  var todaySection: BitconHistorySection? { get }
-  var historicSection: BitconHistorySection? { get }
-  var placeholderSection: BitconHistorySection? { get }
+  var historicalList: RateList? { get }
+  var todayRate: RateList? { get }
   var error: Error? { get }
 }
 
@@ -27,10 +26,9 @@ enum BitcoinHistoryList {
     struct Request {
     }
     struct Response: ListResponse {
-      var todaySection: BitconHistorySection?
-      var historicSection: BitconHistorySection?
-      var placeholderSection: BitconHistorySection?
-      var error: Error?
+      let historicalList: RateList?
+      let todayRate: RateList?
+      let error: Error?
     }
     struct ViewModel {
       let title: String
@@ -42,10 +40,9 @@ enum BitcoinHistoryList {
     struct Request {
     }
     struct Response: ListResponse {
-      var todaySection: BitconHistorySection?
-      var historicSection: BitconHistorySection?
-      var placeholderSection: BitconHistorySection?
-      var error: Error?
+      let historicalList: RateList?
+      let todayRate: RateList?
+      let error: Error?
     }
     struct ViewModel {
       let result: Result<[BitconHistorySection], Error>
@@ -56,10 +53,9 @@ enum BitcoinHistoryList {
     struct Request {
     }
     struct Response: ListResponse {
-      var todaySection: BitconHistorySection?
-      var historicSection: BitconHistorySection?
-      var placeholderSection: BitconHistorySection?
-      var error: Error?
+      let historicalList: RateList?
+      let todayRate: RateList?
+      let error: Error?
     }
     struct ViewModel {
       let result: Result<[BitconHistorySection], Error>

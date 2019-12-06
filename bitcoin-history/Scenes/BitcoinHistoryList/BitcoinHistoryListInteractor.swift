@@ -32,19 +32,16 @@ class BitcoinHistoryListInteractor: BitcoinHistoryListBusinessLogic, BitcoinHist
   }
 
   var presenter: BitcoinHistoryListPresentationLogic?
-  var timer: Timer?
-  let timeIntervalToRefresh: Double
   
   // MARK: Data store
   
   var historicalList: RateList?
   var todayRate: RateList?
   
-  // MARK: Private vars
+  // MARK: Private attributes
   
-  var todaySection: BitconHistorySection?
-  var historicSection: BitconHistorySection?
-  var placeholderSection: BitconHistorySection?
+  let initialHistoricDate = Date(substractingDays: Constants.previousDaysToFetch)
+  let finalHistoricDate = Date()
   
   // MARK: Workers
   
@@ -52,42 +49,59 @@ class BitcoinHistoryListInteractor: BitcoinHistoryListBusinessLogic, BitcoinHist
   
   // MARK: Object lifecycle
   
-  init(store: StoreProtocol = Store(), refreshTodayRateInterval: Double = Constants.refreshTodayRateInterval) {
-    timeIntervalToRefresh = refreshTodayRateInterval
+  init(store: StoreProtocol = Store()) {
     worker = Worker(store: store)
   }
   
   // MARK: Business logic
   
   func prepareView(request: BitcoinHistoryList.PrepareView.Request) {
-    sections.append(.placeholder(amount: Constants.previousDaysToFetch))
-    let response = BitcoinHistoryList.PrepareView.Response(result: .success(sections))
-    self.presenter?.presentView(response: response)
-
-    getHistoricalList { (result) in
-      let response = BitcoinHistoryList.PrepareView.Response(result: result)
-      self.presenter?.presentView(response: response)
+    // Make an initial presentation to show the placeholders
+    let response = BitcoinHistoryList.PrepareView.Response(historicalList: historicalList, todayRate: todayRate, error: nil)
+    presenter?.presentView(response: response)
+    
+    worker.getCurrentPrice { [weak self] (result) in
+      switch result {
+      case .success(let todayRate):
+        self?.todayRate = todayRate
+        let response = BitcoinHistoryList.PrepareView.Response(historicalList: self?.historicalList, todayRate: self?.todayRate, error: nil)
+        self?.presenter?.presentView(response: response)
+      case .failure(let error):
+        let response = BitcoinHistoryList.PrepareView.Response(historicalList: self?.historicalList, todayRate: self?.todayRate, error: error)
+        self?.presenter?.presentView(response: response)
+      }
     }
     
-    getTodaysRate { (result) in
-      let response = BitcoinHistoryList.PrepareView.Response(result: result)
-      self.presenter?.presentView(response: response)
+    worker.getHistorical(start: initialHistoricDate, end: finalHistoricDate) { [weak self] (result) in
+      switch result {
+      case .success(let historicalList):
+        self?.historicalList = historicalList
+        let response = BitcoinHistoryList.PrepareView.Response(historicalList: self?.historicalList, todayRate: self?.todayRate, error: nil)
+        self?.presenter?.presentView(response: response)
+      case .failure(let error):
+        let response = BitcoinHistoryList.PrepareView.Response(historicalList: self?.historicalList, todayRate: self?.todayRate, error: error)
+        self?.presenter?.presentView(response: response)
+      }
     }
   }
   
   func startUpdatingTodayRate(request: BitcoinHistoryList.StartUpdatingForPrice.Request) {
-    worker.startListeningForTodayUpdates(timeIntervalToRefresh: timeIntervalToRefresh) { [weak self] (result) in
+    worker.startListeningForTodayUpdates(timeIntervalToRefresh: Constants.refreshTodayRateInterval) { [weak self] (result) in
       switch result {
       case .success(let todayRate):
-        self?.handleTodayRateSuccess(todayRate)
-        if let unwrappedSections = self?.sections {
-            let response = BitcoinHistoryList.StartUpdatingForPrice.Response(result: .success(unwrappedSections))
-            self?.presenter?.presentStartUpdatingTodayRate(response: response)
-        } else {
-            // If self is not available, it does not make sense to continue
-        }
+        self?.todayRate = todayRate
+        let response = BitcoinHistoryList.StartUpdatingForPrice.Response(
+          historicalList: self?.historicalList,
+          todayRate: self?.todayRate,
+          error: nil
+        )
+        self?.presenter?.presentStartUpdatingTodayRate(response: response)
       case .failure(let error):
-        let response = BitcoinHistoryList.StartUpdatingForPrice.Response(result: .failure(error))
+        let response = BitcoinHistoryList.StartUpdatingForPrice.Response(
+          historicalList: self?.historicalList,
+          todayRate: self?.todayRate,
+          error: error
+        )
         self?.presenter?.presentStartUpdatingTodayRate(response: response)
       }
     }
@@ -98,85 +112,28 @@ class BitcoinHistoryListInteractor: BitcoinHistoryListBusinessLogic, BitcoinHist
   }
   
   func forceUpdateTodaysRate(request: BitcoinHistoryList.ForceUpdateTodaysRate.Request) {
-    getTodaysRate { (result) in
-      let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(result: result)
-      self.presenter?.presentForceUpdateTodaysRate(response: response)
-    }
-    
-    getHistoricalList { (result) in
-      let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(result: result)
-      self.presenter?.presentForceUpdateTodaysRate(response: response)
-    }
-  }
-  
-  // MARK: Helpers
-  
-  private func getTodaysRate(completion: @escaping (Result<[BitconHistorySection], Error>) -> Void) {
-    self.worker.getCurrentPrice { [weak self] (result) in
+    worker.getCurrentPrice { [weak self] (result) in
       switch result {
       case .success(let todayRate):
-        self?.handleTodayRateSuccess(todayRate)
-        if let sectionsUnwraped = self?.sections {
-            completion(.success(sectionsUnwraped))
-        } else {
-            // If self is not available, it does not make sense to continue
-            return
-        }
+        self?.todayRate = todayRate
+        let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(historicalList: self?.historicalList, todayRate: self?.todayRate, error: nil)
+        self?.presenter?.presentForceUpdateTodaysRate(response: response)
       case .failure(let error):
-        completion(.failure(error))
+        let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(historicalList: self?.historicalList, todayRate: self?.todayRate, error: error)
+        self?.presenter?.presentForceUpdateTodaysRate(response: response)
       }
     }
-  }
-  
-  private func getHistoricalList(completion: @escaping (Result<[BitconHistorySection], Error>) -> Void) {
-    let initialDate = Date(substractingDays: Constants.previousDaysToFetch)
-    let finalDate = Date()
-
-    worker.getHistorical(start: initialDate, end: finalDate) { [weak self] (result) in
+    
+    worker.getHistorical(start: initialHistoricDate, end: finalHistoricDate) { [weak self] (result) in
       switch result {
       case .success(let historicalList):
-        self?.handleHistoricalListSuccess(historicalList)
-        if let sectionsUnwraped = self?.sections {
-            completion(.success(sectionsUnwraped))
-        } else {
-            // If self is not available, it does not make sense to continue
-            return
-        }
+        self?.historicalList = historicalList
+        let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(historicalList: self?.historicalList, todayRate: self?.todayRate, error: nil)
+        self?.presenter?.presentForceUpdateTodaysRate(response: response)
       case .failure(let error):
-        completion(.failure(error))
+        let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(historicalList: self?.historicalList, todayRate: self?.todayRate, error: error)
+        self?.presenter?.presentForceUpdateTodaysRate(response: response)
       }
     }
-  }
-  
-  private func handleHistoricalListSuccess(_ historicalList: RateList) {
-    if let index = sections.firstIndex(of: .historic(list: historicalList)) {
-      self.sections[index] = .historic(list: historicalList)
-    } else {
-      self.sections.append(.historic(list: historicalList))
-    }
-    
-    if let index = sections.indexOfPlaceholder {
-      self.sections.remove(at: index)
-      
-      if sections.containsTodaySection {
-        sections.append(.placeholder(amount: 1))
-      }
-    }
-    
-    self.historicalList = historicalList
-  }
-  
-  private func handleTodayRateSuccess(_ todayRate: RateList) {
-    if let index = sections.firstIndex(of: .today(detail: todayRate)) {
-      sections[index] = .today(detail: todayRate)
-    } else {
-      sections.append(.today(detail: todayRate))
-    }
-    
-    if let index = sections.firstIndex(of: .placeholder(amount: 1)) {
-      self.sections.remove(at: index)
-    }
-    
-    self.todayRate = todayRate
   }
 }

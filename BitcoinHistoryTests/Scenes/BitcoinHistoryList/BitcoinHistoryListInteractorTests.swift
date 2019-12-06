@@ -33,7 +33,7 @@ class BitcoinHistoryListInteractorTests: XCTestCase {
   // MARK: Test setup
   
   func setupBitcoinHistoryListInteractor() {
-    sut = BitcoinHistoryListInteractor(store: MemStore(), refreshTodayRateInterval: 1)
+    sut = BitcoinHistoryListInteractor(store: MemStore())
   }
   
   // MARK: Test doubles
@@ -80,8 +80,7 @@ class BitcoinHistoryListInteractorTests: XCTestCase {
     // Given
     let spy = BitcoinHistoryListPresentationLogicSpy()
     sut.presenter = spy
-    let sections: [BitconHistorySection] = [.historic(list: RateList.fake), .today(detail: RateList.fake)]
-    let response = BitcoinHistoryList.StartUpdatingForPrice.Response(result: .success(sections))
+    let response = BitcoinHistoryList.StartUpdatingForPrice.Response(historicalList: RateList.fake, todayRate: RateList.fake, error: nil)
 
     // When
     sut.presenter?.presentStartUpdatingTodayRate(response: response)
@@ -94,8 +93,7 @@ class BitcoinHistoryListInteractorTests: XCTestCase {
     // Given
     let spy = BitcoinHistoryListPresentationLogicSpy()
     sut.presenter = spy
-    let sections: [BitconHistorySection] = [.historic(list: RateList.fake), .today(detail: RateList.fake)]
-    let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(result: .success(sections))
+    let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(historicalList: RateList.fake, todayRate: RateList.fake, error: nil)
 
     // When
     sut.presenter?.presentForceUpdateTodaysRate(response: response)

@@ -43,7 +43,7 @@ public struct RateList {
     self.disclaimer = response.disclaimer
     self.updatedDate = updatedDate
     self.currentCurrency = currentCurrency
-    self.list = response.bpi.compactMap { Rate(date: $0.key, rate: $0.value, currency: currentCurrency) }.sorted { $0.date > $1.date }
+    self.list = response.bpi.compactMap { Rate(date: $0.key, rate: $0.value, currency: currentCurrency) }
   }
   
   var updatedDateString: String {

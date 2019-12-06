@@ -102,6 +102,7 @@ class BitcoinHistoryListViewController: UITableViewController, BitcoinHistoryLis
   }
   
   func displayView(viewModel: BitcoinHistoryList.PrepareView.ViewModel) {
+    title = viewModel.title
     handleList(result: viewModel.result)
     startUpdatingTodayRate()
   }

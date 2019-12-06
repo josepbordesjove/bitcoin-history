@@ -96,7 +96,7 @@ class BitcoinHistoryListPresenterTests: XCTestCase {
     // Given
     let spy = BitcoinHistoryListDisplayLogicSpy()
     sut.viewController = spy
-    let response = BitcoinHistoryList.PrepareView.Response(result: .success([.historic(list: RateList.fake), .today(detail: RateList.fake)]))
+    let response = BitcoinHistoryList.PrepareView.Response(historicalList: RateList.fake, todayRate: RateList.fake, error: nil)
     
     // When
     sut.presentView(response: response)
@@ -112,8 +112,7 @@ class BitcoinHistoryListPresenterTests: XCTestCase {
     // Given
     let spy = BitcoinHistoryListDisplayLogicSpy()
     sut.viewController = spy
-    let sections: [BitconHistorySection] = [.historic(list: RateList.fake), .today(detail: RateList.fake)]
-    let response = BitcoinHistoryList.StartUpdatingForPrice.Response(result: .success(sections))
+    let response = BitcoinHistoryList.StartUpdatingForPrice.Response(historicalList: RateList.fake, todayRate: RateList.fake, error: nil)
 
     // When
     sut.presentStartUpdatingTodayRate(response: response)
@@ -127,8 +126,7 @@ class BitcoinHistoryListPresenterTests: XCTestCase {
 
   func testDisplayForceUpdateTodaysRate() {
     // Given
-    let sections: [BitconHistorySection] = [.historic(list: RateList.fake)]
-    let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(result: .success(sections))
+    let response = BitcoinHistoryList.ForceUpdateTodaysRate.Response(historicalList: RateList.fake, todayRate: nil, error: nil)
     let spy = BitcoinHistoryListDisplayLogicSpy()
     sut.viewController = spy
     

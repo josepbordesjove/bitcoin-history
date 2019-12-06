@@ -108,7 +108,7 @@ class BitcoinHistoryListViewControllerTests: XCTestCase {
     let spy = BitcoinHistoryListBusinessLogicSpy()
     sut.interactor = spy
     let sections: [BitconHistorySection] = [.today(detail: RateList.fake)]
-    let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .success(sections))
+    let viewModel = BitcoinHistoryList.PrepareView.ViewModel(title: "Some title", result: .success(sections))
     
     // When
     loadView()
@@ -132,7 +132,7 @@ class BitcoinHistoryListViewControllerTests: XCTestCase {
   func testDisplayViewFailure() {
     // Given
     let error = NSError(domain: "Test", code: 0, userInfo: [:])
-    let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .failure(error))
+    let viewModel = BitcoinHistoryList.PrepareView.ViewModel(title: "Some title", result: .failure(error))
     
     // When
     loadView()
@@ -145,7 +145,7 @@ class BitcoinHistoryListViewControllerTests: XCTestCase {
   func testIndexPathIsMantainedAfterUpdateAndDataIsPassedToDetailViewController() {
     // Given
     let sections: [BitconHistorySection] = [.today(detail: RateList.fake)]
-    let viewModel = BitcoinHistoryList.PrepareView.ViewModel(result: .success(sections))
+    let viewModel = BitcoinHistoryList.PrepareView.ViewModel(title: "Some title", result: .success(sections))
     let spy = BitcoinHistoryListRouterSpy()
     sut.router = spy
 

@@ -106,14 +106,6 @@ public class PlaceholderView: UIView {
     return label
   }()
   
-  private(set) lazy var placeholderImageView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.contentMode = .scaleAspectFit
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    return imageView
-  }()
-  
   private(set) lazy var callToActionButton: UIButton = {
     let button = UIButton()
     button.backgroundColor = Color.brand
@@ -127,7 +119,7 @@ public class PlaceholderView: UIView {
   
   private(set) lazy var activityIndicator: UIActivityIndicatorView = {
     #if targetEnvironment(macCatalyst)
-    let indicator = UIActivityIndicatorView(style: .medium)
+    let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     #else
     let indicator = UIActivityIndicatorView(style: isDarkMode ? .white : .gray)
     #endif
@@ -136,16 +128,6 @@ public class PlaceholderView: UIView {
     indicator.translatesAutoresizingMaskIntoConstraints = false
     
     return indicator
-  }()
-  
-  private lazy var loadingLabel: UILabel = {
-    let label = UILabel()
-    label.text = NSLocalizedString("Loading", comment: "")
-    label.font = Font.extraInfoText
-    label.textColor = Color.secondary
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
   }()
   
   // MARK: Object lifecycle
@@ -179,7 +161,7 @@ public class PlaceholderView: UIView {
     }
   }
   
-  public func setup(title: String, description: String?, imageName: String? = nil, callToActionTitle: String? = nil, callToAction: Selector? = nil, target: Any? = nil) {
+  public func setup(title: String, description: String?, callToActionTitle: String? = nil, callToAction: Selector? = nil, target: Any? = nil) {
     titleLabel.text = title
     
     if let description = description {
@@ -187,13 +169,6 @@ public class PlaceholderView: UIView {
       descriptionLabel.isHidden = false
     } else {
       descriptionLabel.isHidden = true
-    }
-    
-    if let imageName = imageName {
-      placeholderImageView.image = UIImage(named: imageName)
-      placeholderImageView.isHidden = false
-    } else {
-      placeholderImageView.isHidden = true
     }
     
     setup(callToActionTitle: callToActionTitle, callToAction: callToAction, target: target)
@@ -251,7 +226,7 @@ public class PlaceholderView: UIView {
       ])
     }
     
-    [titleLabel, descriptionLabel, placeholderImageView, callToActionButton, loadingLabel, activityIndicator].forEach { addSubview($0) }
+    [titleLabel, descriptionLabel, callToActionButton, activityIndicator].forEach { addSubview($0) }
     backgroundColor = .clear
   }
   
@@ -266,23 +241,15 @@ public class PlaceholderView: UIView {
       descriptionLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
       descriptionLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
       
-      placeholderImageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -20),
-      placeholderImageView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 40),
-      placeholderImageView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor, constant: 20),
-      placeholderImageView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor, constant: -20),
-      
       callToActionButton.heightAnchor.constraint(equalToConstant: 44),
       callToActionButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
       callToActionButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
       callToActionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),
       
-      loadingLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-      loadingLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 15),
-      
       activityIndicator.widthAnchor.constraint(equalToConstant: 30),
       activityIndicator.heightAnchor.constraint(equalToConstant: 30),
-      activityIndicator.centerYAnchor.constraint(equalTo: loadingLabel.centerYAnchor),
-      activityIndicator.rightAnchor.constraint(equalTo: loadingLabel.leftAnchor, constant: -5)
+      activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+      activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
     ])
   }
   
@@ -298,7 +265,6 @@ public class PlaceholderView: UIView {
     
     activityIndicator.startAnimating()
     activityIndicator.isHidden = false
-    loadingLabel.isHidden = false
   }
   
   private func prepareForLoading(image: UIImage?) {
@@ -309,12 +275,8 @@ public class PlaceholderView: UIView {
     descriptionLabel.isHidden = true
     callToActionButton.isHidden = true
     
-    placeholderImageView.isHidden = false
-    placeholderImageView.image = image
-    
     activityIndicator.startAnimating()
     activityIndicator.isHidden = false
-    loadingLabel.isHidden = false
   }
   
   private func prepareForEmpty() {
@@ -324,11 +286,9 @@ public class PlaceholderView: UIView {
     titleLabel.isHidden = false
     descriptionLabel.isHidden = false
     callToActionButton.isHidden = !shouldDisplayCallToAction
-    placeholderImageView.isHidden = false
     
     activityIndicator.stopAnimating()
     activityIndicator.isHidden = true
-    loadingLabel.isHidden = true
   }
   
   private func prepareForError(error: Error) {
@@ -342,9 +302,6 @@ public class PlaceholderView: UIView {
     descriptionLabel.text = error.localizedDescription
     
     callToActionButton.isHidden = !shouldDisplayCallToAction
-    
-    placeholderImageView.isHidden = false
-    placeholderImageView.image = UIImage(named: "")
   }
   
   private func prepareForUnknown() {

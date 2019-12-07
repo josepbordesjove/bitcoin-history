@@ -26,6 +26,7 @@
 		FF437A6B2391F9BD001B31BA /* TodayModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF437A652391F9BD001B31BA /* TodayModels.swift */; };
 		FF437A6C2391F9BD001B31BA /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF437A662391F9BD001B31BA /* TodayViewController.swift */; };
 		FF437A6D2391F9BD001B31BA /* TodayInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF437A672391F9BD001B31BA /* TodayInteractor.swift */; };
+		FF863F35239BB13B001BE9C8 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF863F34239BB13B001BE9C8 /* Router.swift */; };
 		FF939B5A2391FC7300C80B0F /* BHKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; platformFilter = ios; };
 		FF939B5B2391FC7300C80B0F /* BHKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFC2C922238F0DEF008745A5 /* BHKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FF939B5E2391FC7300C80B0F /* BHUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF437A3D2391A114001B31BA /* BHUIKit.framework */; platformFilter = ios; };
@@ -206,6 +207,7 @@
 		FF437A652391F9BD001B31BA /* TodayModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayModels.swift; sourceTree = "<group>"; };
 		FF437A662391F9BD001B31BA /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		FF437A672391F9BD001B31BA /* TodayInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayInteractor.swift; sourceTree = "<group>"; };
+		FF863F34239BB13B001BE9C8 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		FF939B632392759600C80B0F /* PlaceholderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderCell.swift; sourceTree = "<group>"; };
 		FF939B66239287F200C80B0F /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		FF990FAB239A63CF00591F0B /* Bitcoin History.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bitcoin History.entitlements"; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 				FF990FAB239A63CF00591F0B /* Bitcoin History.entitlements */,
 				FFC2C8DE238F0B00008745A5 /* AppDelegate.swift */,
 				FF990FAD239A65F000591F0B /* SceneDelegate.swift */,
+				FF863F34239BB13B001BE9C8 /* Router.swift */,
 				FFBEDF562393EEA1008B0E33 /* Constants */,
 				FF437A332391723D001B31BA /* Protocols */,
 				FF437A30239171EF001B31BA /* Extensions */,
@@ -1040,6 +1043,7 @@
 				FF437A3223917210001B31BA /* UITableView+.swift in Sources */,
 				FFBEDF582393EF3F008B0E33 /* Asset.swift in Sources */,
 				FFC2C954238F120E008745A5 /* BitcoinHistoryListModels.swift in Sources */,
+				FF863F35239BB13B001BE9C8 /* Router.swift in Sources */,
 				FFC2C937238F10E2008745A5 /* BitcoinPriceDetailPresenter.swift in Sources */,
 				FFC2C95B238F172E008745A5 /* BitcoinHistoryTableHandler.swift in Sources */,
 				FFC2C8DF238F0B00008745A5 /* AppDelegate.swift in Sources */,

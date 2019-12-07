@@ -7,59 +7,19 @@
 //
 
 import UIKit
-import BHUIKit
-import BHKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
   var window: UIWindow?
-  
-  let refreshItemIdentifier = NSToolbarItem.Identifier("refreshIdentifier")
-  let infoItemIdentifier = NSToolbarItem.Identifier("infoIdentifier")
-  
-  fileprivate let bitcoinHistoryListViewController = BitcoinHistoryListViewController(store: Store())
+  var router: Router?
   
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     guard let windowScene = (scene as? UIWindowScene) else { return }
-    windowScene.sizeRestrictions?.minimumSize = CGSize(width: 0, height: 0)
     
-    self.window = UIWindow(windowScene: windowScene)
-    
-    defer {
-      window?.makeKeyAndVisible()
-    }
-    
-    guard NSClassFromString("XCTest") == nil else {
-      self.window?.rootViewController = UISplitViewController()
-      return
-    }
-    
-    // Configure the split view controller
-    #if targetEnvironment(macCatalyst)
-    let masterViewController = bitcoinHistoryListViewController
-    
-    if let titlebar = windowScene.titlebar {
-      let toolbar = NSToolbar(identifier: "bitcoinHistoryToolbar")
-      toolbar.allowsUserCustomization = false
-      toolbar.delegate = self
-      titlebar.titleVisibility = .hidden
-      titlebar.toolbar = toolbar
-    }
-    #else
-    let masterViewController = UINavigationController(rootViewController: bitcoinHistoryListViewController)
-    masterViewController.navigationBar.tintColor = Color.brand
-    #endif
-    
-    let rootViewController = UISplitViewController()
-    rootViewController.view.backgroundColor = Color.background
-    rootViewController.preferredDisplayMode = .allVisible
-    rootViewController.delegate = self
-    rootViewController.viewControllers = [masterViewController]
-    
-    window?.rootViewController = rootViewController
+    self.router = Router(window: window, windowScene: windowScene)
   }
   
   func sceneDidDisconnect(_ scene: UIScene) {
@@ -90,47 +50,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // to restore the scene back to its current state.
   }
 }
-
-// MARK: UISplitViewControllerDelegate
-
-extension SceneDelegate: UISplitViewControllerDelegate {
-  func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-    return true
-  }
-}
-
-// MARK: NSToolbarDelegate
-
-#if targetEnvironment(macCatalyst)
-extension SceneDelegate: NSToolbarDelegate {
-  func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
-    if itemIdentifier == refreshItemIdentifier {
-      let barButtonItem = UIBarButtonItem(
-        image: UIImage(systemName: "arrow.clockwise"),
-        style: .done,
-        target: bitcoinHistoryListViewController,
-        action: #selector(bitcoinHistoryListViewController.forceUpdateTodaysRate)
-      )
-      return NSToolbarItem(itemIdentifier: refreshItemIdentifier, barButtonItem: barButtonItem)
-    } else if itemIdentifier == infoItemIdentifier {
-      let barButtonItem = UIBarButtonItem(
-        image: UIImage(systemName: "info.circle"),
-        style: .done,
-        target: bitcoinHistoryListViewController.router,
-        action: #selector(bitcoinHistoryListViewController.router?.routeToInfoDisclaimer)
-      )
-      return NSToolbarItem(itemIdentifier: refreshItemIdentifier, barButtonItem: barButtonItem)
-    }
-    
-    return nil
-  }
-  
-  func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-      return [NSToolbarItem.Identifier.flexibleSpace, refreshItemIdentifier, infoItemIdentifier]
-  }
-
-  func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-      return toolbarDefaultItemIdentifiers(toolbar)
-  }
-}
-#endif

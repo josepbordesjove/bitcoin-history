@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct RateList {
+public struct RateList: Hashable {
   public let disclaimer: String
   public let updatedDate: Date
   public let currentCurrency: Currency

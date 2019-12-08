@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Rate: Equatable {
+public struct Rate: Equatable, Hashable {
   public let date: Date
   public let rate: Float
   public let currency: Currency

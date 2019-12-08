@@ -45,6 +45,12 @@ class PlaceholderCell: UITableViewCell, CellIdentifier {
     #if targetEnvironment(macCatalyst)
     let activityIndicator = UIActivityIndicatorView(style: .medium)
     #else
+    var isDarkMode: Bool = false
+    
+    if #available(iOS 12.0, *) {
+      isDarkMode = self.traitCollection.userInterfaceStyle == .dark
+    }
+
     let activityIndicator = UIActivityIndicatorView(style: isDarkMode ? .white : .gray)
     #endif
     activityIndicator.translatesAutoresizingMaskIntoConstraints = false

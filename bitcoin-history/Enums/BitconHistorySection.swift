@@ -9,7 +9,7 @@
 import Foundation
 import BHKit
 
-enum BitconHistorySection: Equatable {
+enum BitconHistorySection: Equatable, Hashable {
   case today(detail: RateList)
   case historic(list: RateList)
   case placeholder(amount: Int)

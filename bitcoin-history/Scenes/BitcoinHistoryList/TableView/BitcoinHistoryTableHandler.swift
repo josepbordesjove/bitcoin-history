@@ -17,7 +17,8 @@ class BitcoinHistoryTableHandler: NSObject, UITableViewDataSource, UITableViewDe
   private(set) var sections: [BitconHistorySection]
   weak var tableView: UITableView?
   weak var delegate: BitcoinHistoryTableHandlerDelegate?
-  
+  private var dataSource
+
   // MARK: Object lifecycle
   
   init(sections: [BitconHistorySection], tableView: UITableView) {

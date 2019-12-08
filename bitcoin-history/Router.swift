@@ -13,7 +13,6 @@ import BHKit
 class Router: NSObject {
   
   var window: UIWindow?
-  let windowScene: UIWindowScene
   
   #if targetEnvironment(macCatalyst)
   let refreshItemIdentifier = NSToolbarItem.Identifier("refreshIdentifier")
@@ -23,14 +22,20 @@ class Router: NSObject {
   // Create the master view controller
   fileprivate let bitcoinHistoryListViewController = BitcoinHistoryListViewController(store: Store())
   
+  init(window: UIWindow?) {
+    self.window = window
+  }
+  
+  @available(iOS 13.0, *)
   init(window: UIWindow?, windowScene: UIWindowScene) {
     self.window = window
-    self.windowScene = windowScene
     self.window = UIWindow(windowScene: windowScene)
     super.init()
 
     configureRootViewController()
   }
+  
+  // MARK: Helpers
   
   private func configureRootViewController() {
     defer {
@@ -43,21 +48,7 @@ class Router: NSObject {
     }
     
     // Configure the split view controller
-    #if targetEnvironment(macCatalyst)
-    windowScene.sizeRestrictions?.minimumSize = CGSize(width: 0, height: 0)
-    let masterViewController = bitcoinHistoryListViewController
-    
-    if let titlebar = windowScene.titlebar {
-      let toolbar = NSToolbar(identifier: "bitcoinHistoryToolbar")
-      toolbar.allowsUserCustomization = false
-      toolbar.delegate = self
-      titlebar.titleVisibility = .hidden
-      titlebar.toolbar = toolbar
-    }
-    #else
-    let masterViewController = UINavigationController(rootViewController: bitcoinHistoryListViewController)
-    masterViewController.navigationBar.tintColor = Color.brand
-    #endif
+    let masterViewController = generateMasterViewController()
     
     let rootViewController = UISplitViewController()
     rootViewController.view.backgroundColor = Color.background
@@ -66,6 +57,28 @@ class Router: NSObject {
     rootViewController.viewControllers = [masterViewController]
     
     window?.rootViewController = rootViewController
+  }
+  
+  private func generateMasterViewController() -> UINavigationController {
+    #if targetEnvironment(macCatalyst)
+    windowScene.sizeRestrictions?.minimumSize = CGSize(width: 0, height: 0)
+    let masterViewController = bitcoinHistoryListViewController
+    
+    if let titlebar = window?.windowScene.titlebar {
+      let toolbar = NSToolbar(identifier: "bitcoinHistoryToolbar")
+      toolbar.allowsUserCustomization = false
+      toolbar.delegate = self
+      titlebar.titleVisibility = .hidden
+      titlebar.toolbar = toolbar
+    }
+    
+    return masterViewController
+    #else
+    let masterViewController = UINavigationController(rootViewController: bitcoinHistoryListViewController)
+    masterViewController.navigationBar.tintColor = Color.brand
+
+    return masterViewController
+    #endif
   }
 }
 
